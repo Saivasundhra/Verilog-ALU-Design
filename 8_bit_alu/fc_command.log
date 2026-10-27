@@ -1,0 +1,131 @@
+#@ # 
+#@ # Running fc_shell Version W-2024.09-SP2 for linux64 -- Nov 25, 2024
+#@ # Date:   Tue Oct 27 10:59:15 2026
+#@ # Run by: vlsi@vlsilab.ritchennai.edu.in
+#@ 
+
+create_lib rca_lib   -ref_libs /home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_STD_LVT/ndm/saed14lvt_base_frame_timing.ndm   -technology /home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_TECH_DATA/tf/saed14nm_1p9m.tf
+save_lib
+report_ref_libs
+current_lib
+analyze -f verilog /home/vlsi/8_bit_alu/alu.v
+elaborate alu
+set_top_module alu
+current_block
+start_gui
+gui_set_pref_value -category {SelectByNamePalette} -key {ObjectType} -value {Logical Cells}
+set scenario2 "BEST"
+set scenario_constraints($scenario2) "/home/vlsi/8_bit_alu/alu.sdc"
+remove_modes -all
+remove_corners -all
+remove_scenarios -all
+foreach s [array name scenario_constraints] {
+    create_mode $s
+    create_corner $s
+    create_scenario -name $s -mode $s -corner $s
+}
+//verify :
+foreach s [array name scenario_constraints] {
+    current_scenario $s
+    source $scenario_constraints($s)
+}
+set_scenario_status $scenario1 -setup true  -hold false -leakage_power true -dynamic_power true  -active true
+set_scenario_status $scenario2 -setup false -hold true  -leakage_power true -dynamic_power false -active true
+report_scenarios
+compile_fusion -to initial_map
+config_flow
+report_optimization_history
+save_block -as initial_map
+initialize_floorplan -core_utilization 0.10 -core_offset {1 1 1 1}
+create_net VDD
+create_net VSS
+connect_pg_net -automatic -verbose
+create_pg_strap -net VDD -layer M5 -direction vertical   -width 0.24 -pitch 8 -start 1.5 -stop 18
+create_pg_strap -net VSS -layer M5 -direction vertical   -width 0.24 -pitch 8 -start 3   -stop 18
+create_pg_strap -net VDD -layer M4 -direction horizontal -width 0.24 -pitch 8 -start 1.5 -stop 18
+create_pg_strap -net VSS -layer M4 -direction horizontal -width 0.24 -pitch 8 -start 3   -stop 18
+compile_fusion -to logic_opto
+config_flow
+report_optimization_history
+save_block -as logic_opto
+compile_fusion -to final_opto
+config_flow
+report_optimization_history
+save_block -as final_opto
+create_routing_rule 2w2s  -spacings {M1 0.052 M2 0.052 M3 0.052 M4 0.08 M5 0.08 M6 0.08 M7 0.08 M8 0.08 M9 0.08}  -widths   {M1 0.068 M2 0.068 M3 0.068 M4 0.12 M5 0.12 M6 0.12 M7 0.12 M8 0.12 M9 0.12}  -default_reference_rule
+set_clock_routing_rules -net_type root     -rule 2w2s -min_routing_layer M4 -max_routing_layer M8
+set_clock_routing_rules -net_type internal -rule 2w2s -min_routing_layer M4 -max_routing_layer M8
+set_clock_routing_rules -net_type sink     -min_routing_layer M4 -max_routing_layer M6 -default_rule
+clock_opt -from build_clock -to route_clock
+config_flow
+config_flow -stage cfinal_opto_prelude
+save_block -as route_clock
+clock_opt -to final_opto
+config_flow
+config_flow -stage cfinal_opto_prelude
+save_block -as clock_final_opto
+route_auto
+refresh_via_ladder_constraints -performance true -emt false
+route_opt
+config_flow
+config_flow -stage cfinal_opto_prelude
+save_block -as route_opt
+create_stdcell_fillers -lib_cells [get_lib_cells *FILL*]
+report_timing -delay_type min -sig 3
+report_timing -delay_type max -sig 3
+report_global_timing -pba_mode path
+report_power
+check_routes
+check_lvs########
+write_verilog alu.v
+write_def alu.def
+write_oasis -units 1000 alu.oasis
+report_placement
+report_timing -delay_type min -sig 3
+report_timing -delay_type max -sig 3
+report_global_timing -pba_mode path
+report_power
+check_routes
+check_lvs
+win_set_filter -visible -class cell -filter {assembly_die_margin bridge clock_margin filler_allowed_margin hard_macro_margin hard_margin route_blockage_margin seal_ring_margin soft_margin substrate} -layer {}
+win_set_filter -visible -class pseudo_bump -filter {deleted} -layer {}
+win_set_filter -visible -class pseudo_tsv -filter {deleted} -layer {}
+win_set_filter -visible -class placement_blockage -filter {wiring} -layer {0-75}
+win_set_filter -expand_cell_types {soft_macro  }
+win_set_select_class -visible {cell port bound routing_blockage shaping_blockage pg_region bump_region pseudo_bump pseudo_tsv pin_blockage block_shielding topology_node topology_edge topology_repeater annotation_shape core_area die_area edit_group shape via terminal fill_cell metal_area metal_area_hole placement_blockage }
+win_set_filter -class cell -filter {array assembly_die_margin bridge clock_margin filler_allowed_margin hard_macro_margin hard_margin route_blockage_margin seal_ring_margin soft_margin substrate} -layer {}
+win_set_filter -class pseudo_bump -filter {deleted} -layer {}
+win_set_filter -class pseudo_tsv -filter {deleted} -layer {}
+win_set_filter -class placement_blockage -filter {wiring} -layer {0-75}
+win_set_select_class {cell port bound routing_blockage shaping_blockage pg_region bump_region pseudo_bump pseudo_tsv pin_blockage topology_node topology_edge topology_repeater annotation_shape edit_group shape via metal_area metal_area_hole placement_blockage }
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting schematic:background_color -value black
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting zoomFitFactor -value 0.0
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting highDelayColor -value red
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting mediumDelayColor -value darkorange
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting schematic:background_color -value black
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting zoomFitFactor -value 0.0
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting highDelayColor -value red
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting mediumDelayColor -value darkorange
+gui_set_setting -window [gui_get_current_window -types Schematic -mru] -setting schem_hierarchy:lineColor -value darkorange
+set_command_option_value -command run_custom_compiler -position 0 -current -force_enable -undefined
+gui_show_command_form -command run_custom_compiler
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.256 10.707}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.256 10.707}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.256 10.707}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.256 10.707}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 2 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.256 10.705}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.258 10.705}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.258 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.258 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}
+gui_zoom -window [gui_get_current_window -types Layout -mru] -factor 0.5 -at_point {12.257 10.706}

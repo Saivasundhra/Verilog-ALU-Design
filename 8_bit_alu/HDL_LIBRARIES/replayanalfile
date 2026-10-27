@@ -1,0 +1,7 @@
+set search_path [list . /home/vlsi/Synopsys/Synopsys_install/Fusion_Compiler/fusioncompiler/W-2024.09-SP2/dw/syn_ver /home/vlsi/Synopsys/Synopsys_install/Fusion_Compiler/fusioncompiler/W-2024.09-SP2/dw/sim_ver /home/vlsi/Synopsys/Synopsys_install/Fusion_Compiler/fusioncompiler/W-2024.09-SP2/libraries/syn ] 
+analyze -f verilog  "/home/vlsi/8_bit_alu/alu.v" 
+C/home/vlsi/8_bit_alu
+/home/vlsi/8_bit_alu/alu.v
+alu
+elaborate alu
+set_top_module alu

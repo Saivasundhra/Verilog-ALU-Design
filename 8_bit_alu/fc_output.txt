@@ -1,0 +1,2855 @@
+ 
+                              Fusion Compiler (TM)
+
+                Version W-2024.09-SP2 for linux64 - Nov 26, 2024
+                           Base Build Date: 11/5/2024
+
+                    Copyright (c) 1988 - 2024 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+   or distribution of this software is strictly prohibited.  Licensed Products
+     communicate with Synopsys servers for the purpose of providing software
+    updates, detecting software piracy and verifying that customers are using
+    Licensed Products in conformity with the applicable License Key for such
+  Licensed Products. Synopsys will use information gathered in connection with
+    this process to deliver software updates and pursue software pirates and
+                                   infringers.
+
+ Inclusivity & Diversity - Visit SolvNetPlus to read the "Synopsys Statement on
+            Inclusivity and Diversity" (Refer to article 000036315 at
+                        https://solvnetplus.synopsys.com)
+
+Information: Term was not able to be set up using xterm-256color . Using "xterm" by default instead. (CLE-10)
+fc_shell> create_lib rca_lib   -ref_libs /home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_STD_LVT/ndm/saed14lvt_base_frame_timing.ndm   -technology /home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_TECH_DATA/tf/saed14nm_1p9m.tf
+Information: Loading technology file '/home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_TECH_DATA/tf/saed14nm_1p9m.tf' (FILE-007)
+{rca_lib}
+fc_shell> 
+fc_shell> save_lib
+Saving library 'rca_lib'
+1
+fc_shell> report_ref_libs
+****************************************
+Report : Reference Library Report
+Library: rca_lib
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 10:59:42 2026
+****************************************
+
+    Name                        Path                                                                                                                  Location
+    ----------------------------------------------------------------------------------------------------------------------------------------------------------
+*+  saed14lvt_base_frame_timing /home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_STD_LVT/ndm/saed14lvt_base_frame_timing.ndm /home/vlsi/Synopsys/Fusa_EDK/SAED14nm_EDK_08_2025/SAED14_EDK/SAED14nm_EDK_STD_LVT/ndm/saed14lvt_base_frame_timing.ndm
+    "*" = Library currently open
+    "+" = Library has technology information
+1
+fc_shell> current_lib
+{rca_lib}
+fc_shell> 
+fc_shell> analyze -f verilog /home/vlsi/8_bit_alu/alu.v
+Information: By default, the HDL template library is 'WORK' (LBR-??).
+Running PRESTO HDLC
+Compiling source file /home/vlsi/8_bit_alu/alu.v
+Presto compilation completed successfully.
+Elapsed = 00:00:05.20, CPU = 00:00:00.00
+1
+fc_shell> elaborate alu
+Warning:  /home/vlsi/8_bit_alu/alu.v:21: DEFAULT branch of CASE statement cannot be reached. (ELAB-311)
+
+Statistics for case statements in always block in file
+        '/home/vlsi/8_bit_alu/alu.v'
+===========================================================
+|    Line    |  full/ parallel  |      block location     |
+===========================================================
+|     12     |    auto/auto     | always block at line 11 |
+===========================================================
+Presto compilation completed successfully. (alu)
+Module: alu, Ports: 28, Input: 19, Output: 9, Inout: 0
+Module: alu, Registers: 0, Async set/reset: 0, Sync set/reset: 0
+Information:  Module alu report end. (ELAB-965)
+Information: Design alu elaboration summary: (FLW-8550)
+Number of modules read: 1
+Top level ports:        28
+Total in all modules
+  Ports:                28
+  Nets:                 109
+  Instances:            68
+Information: Design summary end. (FLW-8551)
+Elapsed = 00:00:00.21, CPU = 00:00:00.04
+1
+fc_shell> set_top_module alu
+Information: User units loaded from library 'saed14lvt_base_frame_timing' (LNK-040)
+Information: Non-default hdlin app options: (FLW-8560)
+****************************************
+Name                                                    Type       Value      User-value   User-default System-default Scope      Status     Source
+------------------------------------------------------- ---------- ---------- ------------ ------------ -------------- ---------- ---------- ----------
+SNPSee_ac5f1c26be820a73c7644f673fce36a44aaa696f07f8f279 bool       true       true         true         false          global     unlisted   --
+------------------------------------------------------- ---------- ---------- ------------ ------------ -------------- ---------- ---------- ----------
+Information: Added key list 'DesignWare' to design 'alu'. (DWS-0216)
+Elapsed = 00:00:01.82, CPU = 00:00:00.22
+1
+fc_shell> current_block
+{rca_lib:alu.design}
+fc_shell> 
+fc_shell> start_gui
+fc_shell> set scenario2 "BEST"
+BEST
+fc_shell> set scenario_constraints($scenario2) "/home/vlsi/8_bit_alu/alu.sdc"
+/home/vlsi/8_bit_alu/alu.sdc
+fc_shell> remove_modes -all
+1
+fc_shell> remove_corners -all
+1
+fc_shell> remove_scenarios -all
+1
+fc_shell> foreach s [array name scenario_constraints] {
+    create_mode $s
+    create_corner $s
+    create_scenario -name $s -mode $s -corner $s
+}
+Created scenario BEST for mode BEST and corner BEST
+All analysis types are activated.
+fc_shell> //verify :
+Error: unknown command '//verify' (CMD-005)
+fc_shell> foreach s [array name scenario_constraints] {
+    current_scenario $s
+    source $scenario_constraints($s)
+}
+Warning: Creating virtual clock named 'VCLK' with no sources. (UIC-021)
+Information: Timer using 1 threads
+fc_shell> set_scenario_status $scenario1 -setup true  -hold false -leakage_power true -dynamic_power true  -active true
+Error: can't read "scenario1": no such variable
+        Use error_info for more info. (CMD-013)
+fc_shell> set_scenario_status $scenario2 -setup false -hold true  -leakage_power true -dynamic_power false -active true
+Scenario BEST (mode BEST corner BEST) is active for hold/leakage_power/max_transition/max_capacitance/min_capacitance analysis.
+1
+fc_shell> report_scenarios
+****************************************
+Report : scenario
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:00:30 2026
+****************************************
+
+                                                                     Leakage  Dynamic                              Cell  Signal
+Name            Mode            Corner          Active  Setup  Hold  Power    Power    Max_tran  Max_cap  Min_cap  EM    EM
+----------------------------------------------------------------------------------------------------------------------------------
+BEST *          BEST            BEST            true    false  true  true     false    true      true     true     false false
+
+1
+fc_shell> compile_fusion -to initial_map
+Warning: No site rows found in floorplan. (LGL-397)
+Information: Enabling runtime flow for U-2022 (FLW-3600)
+Warning: Technology layer 'M1' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M2' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M3' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M4' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M5' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M6' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M7' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M8' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M9' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'MRDL' setting 'routing-direction' is not valid (NEX-001)
+INFO: compile_fusion is running in balanced flow mode.
+Warning: No site rows found in floorplan. (LGL-397)
+INFO: EIO v5 is enabled
+INFO: Cost Function Configuration 0.5/0.5/0.5/0.5
+Information: Structural Congestion Optimization technology (Early SCO) has been enabled. (SCO-0001)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Information: Starting 'compile_fusion -to initial_map' (FLW-8000)
+Information: Time: 2026-10-27 11:00:38 / Session:  00:01:29 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 695 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB
+****************************************
+Report : report_tbcs
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:00:38 2026
+****************************************
+Warning: No site rows found in floorplan. (LGL-397)
+INFO: Start environment monitoring: recipes
+Information: Enabling runtime flow for U-2022 (FLW-3600)
+Warning: Technology layer 'M1' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M2' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M3' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M4' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M5' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M6' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M7' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M8' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M9' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'MRDL' setting 'routing-direction' is not valid (NEX-001)
+INFO: compile_fusion is running in balanced flow mode.
+Warning: No site rows found in floorplan. (LGL-397)
+INFO: EIO v5 is enabled
+INFO: Cost Function Configuration 0.5/0.5/0.5/0.5
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2_0P5' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2_1' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2_2' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2_4' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_0P5' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_1' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_2' in library is not possible because cell has 'dont_use' attribute. (SQM-1067)
+Information: The automatic clock gate timing flow is activated. Clock latencies set on clock gate cells will be automatically adjusted by an estimate for latency. (CGT-4005)
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / initial_map (FLW-8000)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:30 / Command:  00:00:01 / CPU:  00:00:00 / Memory: 779 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / initial_map / Load Design (FLW-8000)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:30 / Command:  00:00:01 / CPU:  00:00:00 / Memory: 779 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -             -           -          65              0.03       810
+Information: Ending   compile_fusion / initial_map / Load Design (FLW-8001)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:31 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 810 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / MV Cell Insertion (FLW-8000)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:31 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 810 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+MV related app options set by user:
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -             -           -          65              0.03       810
+Information: Ending   compile_fusion / initial_map / MV Cell Insertion (FLW-8001)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:31 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 810 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) (FLW-8000)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:31 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 810 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) / Constant and Equal Register Detection (FLW-8000)
+Information: Time: 2026-10-27 11:00:39 / Session:  00:01:31 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 810 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Information: Register Bits Before Sharing = 0, After Sharing = 0, Savings = 0 (SQM-2000)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -             -           -          63              0.03       829
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) / Constant and Equal Register Detection (FLW-8001)
+Information: Time: 2026-10-27 11:00:40 / Session:  00:01:31 / Command:  00:00:02 / CPU:  00:00:01 / Memory: 830 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) / Register Merging (FLW-8000)
+Information: Time: 2026-10-27 11:00:40 / Session:  00:01:31 / Command:  00:00:02 / CPU:  00:00:01 / Memory: 830 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -             -           -          63              0.03       829
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) / Register Merging (FLW-8001)
+Information: Time: 2026-10-27 11:00:40 / Session:  00:01:31 / Command:  00:00:02 / CPU:  00:00:01 / Memory: 830 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) / Constant Propagation and Register Optimization (FLW-8000)
+Information: Time: 2026-10-27 11:00:40 / Session:  00:01:31 / Command:  00:00:02 / CPU:  00:00:01 / Memory: 830 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -             -           -          63              0.03       834
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) / Constant Propagation and Register Optimization (FLW-8001)
+Information: Time: 2026-10-27 11:00:40 / Session:  00:01:32 / Command:  00:00:02 / CPU:  00:00:01 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -             -           -          63              0.03       834
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) (FLW-8001)
+Information: Time: 2026-10-27 11:00:40 / Session:  00:01:32 / Command:  00:00:02 / CPU:  00:00:01 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: No site rows found in floorplan. (LGL-397)
+Information: Timer using 1 threads
+Information: Starting compile_fusion / initial_map / High-Level Optimization and Technology Mapping (FLW-8000)
+Information: Time: 2026-10-27 11:00:41 / Session:  00:01:33 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module alu. No Clock Gating insertion will be done in this module. (CGT-3300)
+Information: Added key list 'DesignWare' to design 'alu'. (DWS-0216)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module alu. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module RS_OP_21_55109_40986_J1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module DW01_sub_J1_H1_D1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module DW01_sub_J1_H2_D1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module snps_SELECT_18. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: No cell bus will be mapped to multibit because multibit mapping has been disabled by user. (SQM-1034)
+Information: Shift register Inferencing is enabled so only head flop will be replaced with scan cell and not all registers in shift register chains are scan replaced. (SQM-1074)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.03       834
+Information: Ending   compile_fusion / initial_map / High-Level Optimization and Technology Mapping (FLW-8001)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:04 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: No valid clocks available in design 'alu'. Setting clock frequency to 1 GHz. (POW-034)
+Warning: No valid clocks available in design 'alu'. Setting clock frequency to 1 GHz. (POW-034)
+Information: Starting compile_fusion / initial_map / DFT Core Wrapper Analysis (FLW-8000)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:04 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.03       834
+Information: Ending   compile_fusion / initial_map / DFT Core Wrapper Analysis (FLW-8001)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:04 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (2) (FLW-8000)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:04 / Memory: 835 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Register Bits Before Sharing = 0, After Sharing = 0, Savings = 0 (SQM-2000)
+Information: Starting compile_fusion / initial_map / Logic Simplification (2) / Constant Propagation and Register Optimization (FLW-8000)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:04 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.03       853
+Information: Ending   compile_fusion / initial_map / Logic Simplification (2) / Constant Propagation and Register Optimization (FLW-8001)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:05 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.03       853
+Information: Ending   compile_fusion / initial_map / Logic Simplification (2) (FLW-8001)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:05 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module alu. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: Starting step 'fc/initial_map/ReportMbStats' while step 'fc/initial_map/seqremapBank' is still alive. In case 'fc/initial_map/seqremapBank' is a parent step of 'fc/initial_map/ReportMbStats', you might want to call the step ctor with that as argument (FLW-2200)
+Information: Result of compile_fusion / initial_map / Clock Gate Insertion (FLW-8500)
+--------------------------------------------------------------------------------
+|                             Clock Gating Options                             |
+--------------------------------------------------------------------------------
+|         Objects         |    Minimum Bitwidth     |      Maximum Fanout      |
+--------------------------+-------------------------+---------------------------
+|   top-level (design)    |          3 (d)          |      Unlimited (d)       |
+--------------------------------------------------------------------------------
+
+Number of Pre-Existing Clock Gates with dont touch attribute: 0
+Number of ICG library cells with CTS purpose: 0
+---------------------------------------------------------------------------------------------
+                          Tool Gated Register Summary                                        
+---------------------------------------------------------------------------------------------
+Clock Gating Type                   | Number of   | Register Count | Equivalent | % of Gated 
+                                    | Clock Gates |                | Bitwidth   | Bits       
+---------------------------------------------------------------------------------------------
+Regular Clock Gating                |           0 |              0 |          0 |     0.00%
+---------------------------------------------------------------------------------------------
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.03       853
+
+Information: Runtime Summary (compile_fusion / initial_map)  (FLW-9001)
+----------------------------------------------------------------------------
+     Elapse(Hr:Min:Sec)     Elapse(%)     Category
+----------------------------------------------------------------------------
+       00:00:00              9.2%         Load Design 
+       00:00:00              0.1%         MV Cell Insertion 
+       00:00:00              0.1%         Logic Simplification (1) 
+       00:00:00             11.4%         Logic Simplification (1)/Constant and Equal Register Detection 
+       00:00:00              0.0%         Logic Simplification (1)/Register Merging 
+       00:00:00              5.0%         Logic Simplification (1)/Constant Propagation and Register Optimization 
+       00:00:01             39.9%         High-Level Optimization and Technology Mapping 
+       00:00:00              0.0%         DFT Core Wrapper Analysis 
+       00:00:00              3.1%         Logic Simplification (2) 
+       00:00:00              0.6%         Logic Simplification (2)/Constant Propagation and Register Optimization 
+       00:00:01             30.4%         Other 
+----------------------------------------------------------------------------
+       00:00:04            100.0%         Total 
+----------------------------------------------------------------------------
+
+Host Options:
+-------------
+Max cores: 1
+
+Machine Spec:
+-------------
+11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz / 16 CPUs  
+Sockets: 1, Cores: 8, HT/SMT, not-VM
+----------------------------------------------------------------------------
+
+Information: Ending   compile_fusion / initial_map (FLW-8001)
+Information: Time: 2026-10-27 11:00:43 / Session:  00:01:35 / Command:  00:00:05 / CPU:  00:00:05 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+
+Information: >>>>>>> 6 unique error and warning message tags while observing compile_fusion / initial_map: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     1     1  0 FLW-2200  WARNING   Warning: Starting step 'fc/initial_map/ReportMbStats' while ... (MSG-3032)
+Information:     7    14 10 SQM-1067  WARNING   Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_2' i... (MSG-3032)
+Information:     1     1  1 SQM-1034  WARNING   Warning: No cell bus will be mapped to multibit because mult... (MSG-3032)
+Information:     7     7  0 CGT-3300  WARNING   Warning: There is no integrated clock-gating cell in the tec... (MSG-3032)
+Information:     2     2 10 POW-034   WARNING   Warning: No valid clocks available in design 'alu'. Setting ... (MSG-3032)
+Information:    32    23  0 LGL-397   WARNING   Warning: No site rows found in floorplan. (LGL-397)             (MSG-3032)
+Information:    50    48  3        6  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 48 error&warning MSGs observed during compile_fusion / initial_map (MSG-3103)
+
+Information: Structural Congestion Optimization technology (Early SCO) has been enabled. (SCO-0001)
+Warning: No site rows found in floorplan. (LGL-397)
+Warning: Technology layer 'M1' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M2' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M3' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M4' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M5' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M6' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M7' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M8' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M9' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'MRDL' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M1' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M2' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M3' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M4' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M5' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M6' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M7' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M8' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M9' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'MRDL' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M1' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M2' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M3' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M4' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M5' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M6' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M7' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M8' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'M9' setting 'routing-direction' is not valid (NEX-001)
+Warning: Technology layer 'MRDL' setting 'routing-direction' is not valid (NEX-001)
+Warning: No site rows found in floorplan. (LGL-397)
+Information: Structural Congestion Optimization technology (Post-DTDP SCO) has been enabled. (SCO-0001)
+Information: Summary of UPF Cells (UPF-532)
+*******************************************************************************
+                            Summary of UPF Cells                               
+*******************************************************************************
+This is NOT a UPF design.
+UPF is NOT loaded.
+UPF is NOT committed.
+-------------------------------------------------------------------------------
+*******************************************************************************
+                        End of Summary of UPF Cells                            
+*******************************************************************************
+Information: Timer using 1 threads
+INFO: End environment monitoring: recipes
+INFO: Restored 0 timer status, 10 app options, 0 tcl gvars, 0 env vars
+Information: >>>>>>> 7 unique error and warning message tags while observing fusion: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     1     1  0 FLW-2200  WARNING   Warning: Starting step 'fc/initial_map/ReportMbStats' while ... (MSG-3032)
+Information:     7    21 10 SQM-1067  WARNING   Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_2' i... (MSG-3032)
+Information:     1     1  1 SQM-1034  WARNING   Warning: No cell bus will be mapped to multibit because mult... (MSG-3032)
+Information:     7     7  0 CGT-3300  WARNING   Warning: There is no integrated clock-gating cell in the tec... (MSG-3032)
+Information:     2     2 10 POW-034   WARNING   Warning: No valid clocks available in design 'alu'. Setting ... (MSG-3032)
+Information:    34    36  0 LGL-397   WARNING   Warning: No site rows found in floorplan. (LGL-397)             (MSG-3032)
+Information:    50    50  0 NEX-001   WARNING   Warning: Technology layer 'MRDL' setting 'routing-direction'... (MSG-3032)
+Information:   102   118  3        7  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 118 error&warning MSGs observed during fusion (MSG-3103)
+
+  Block: rca_lib:alu.design
+  Current State: is mapped; has non-collapsed synth_ref; 
+  Events:
+        - initial_map                   10/27/26 11:00 -->     0.001 hours
+
+1
+Information: Ending   'compile_fusion -to initial_map' (FLW-8001)
+Information: Time: 2026-10-27 11:00:44 / Session:  00:01:36 / Command:  00:00:06 / CPU:  00:00:05 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+1
+fc_shell> save_block -as initial_map
+Information: Saving 'rca_lib:alu.design' to 'rca_lib:initial_map.design'. (DES-028)
+1
+fc_shell> initialize_floorplan -core_utilization 0.10 -core_offset {1 1 1 1}
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'vertical' routing direction for layer 'M1'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'horizontal' routing direction for layer 'M2'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'vertical' routing direction for layer 'M3'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'horizontal' routing direction for layer 'M4'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'vertical' routing direction for layer 'M5'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'horizontal' routing direction for layer 'M6'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'vertical' routing direction for layer 'M7'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'horizontal' routing direction for layer 'M8'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'vertical' routing direction for layer 'M9'. (DPUI-924)
+Warning: The routing directions for layer 'M1 M2 M3 M4 M5 M6 M7 M8 M9 MRDL ' are missing. Auto deriving 'horizontal' routing direction for layer 'MRDL'. (DPUI-924)
+Use site_def 'unit' to initialize floorplan.
+Removing existing floorplan objects
+Creating core...
+Core utilization ratio = 10.13%
+Unplacing all cells...
+Creating site array...
+Creating routing tracks...
+Initializing floorplan completed.
+fc_shell> create_net VDD
+{VDD}
+fc_shell> create_net VSS
+{VSS}
+fc_shell> connect_pg_net -automatic -verbose
+Information: Connecting to PG pins in automatic mode. (MV-396)
+Information: Net 'VDD' type is set to be 'power'. (NDM-057)
+Information: Net 'VSS' type is set to be 'ground'. (NDM-057)
+Information: Hierarchy cell 'RS_OP_21_55109_40986_J1' is DesignWare component, skip auto PG connection inside it. (MV-203)
+Information: Port 'VDD' has been created. (NDM-042)
+Information: Net 'VDD' has been connected to port 'VDD'. (NDM-043)
+Information: Port 'VSS' has been created. (NDM-042)
+Information: Net 'VSS' has been connected to port 'VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_478/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_478/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_407/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_407/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_479/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_479/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_472/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_472/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_437/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_437/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_438/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_438/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_480/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_480/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_439/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_439/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_440/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_440/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_441/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_441/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_442/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_442/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_443/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_443/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_444/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_444/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_445/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_445/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_473/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_473/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_458/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_458/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_459/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_459/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_460/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_460/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_461/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_461/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_462/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_462/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_463/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_463/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_464/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_464/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_465/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_465/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_466/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_466/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_467/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_467/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_468/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_468/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_427/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_427/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_428/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_428/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_429/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_429/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_430/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_430/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_431/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_431/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_469/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_469/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_470/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_470/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_471/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_471/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_474/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_474/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_475/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_475/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_476/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_476/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_477/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_477/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_446/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_446/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_447/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_447/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_448/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_448/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_449/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_449/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_450/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_450/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_451/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_451/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_452/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_452/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_453/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_453/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_454/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_454/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_455/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_455/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_456/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_456/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_457/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_457/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_409/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_409/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_432/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_432/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_433/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_433/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_434/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_434/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_435/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_435/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_436/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_436/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_404/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_404/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_405/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_405/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_406/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_406/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_408/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_408/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_410/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_410/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_411/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_411/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_412/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_412/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_413/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_413/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_414/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_414/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_415/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_415/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_416/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_416/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_417/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_417/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_418/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_418/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_419/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_419/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_420/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_420/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_421/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_421/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_422/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_422/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_423/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_423/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_424/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_424/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_425/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_425/VSS'. (NDM-043)
+Information: Net 'VDD' has been connected to pin 'ctmi_426/VDD'. (NDM-043)
+Information: Net 'VSS' has been connected to pin 'ctmi_426/VSS'. (NDM-043)
+Information: Total 2 netlist change(s) and disconnections have been made to resolve conflicts between power intent and PG netlist. (UPF-073)
+****************************************
+Report : Power/Ground Connection Summary
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:01:06 2026
+****************************************
+P/G net name                  P/G pin count(previous/current)
+--------------------------------------------------------------------------------
+Power net VDD                 0/77
+Unconnected power pins        8
+Unconnected nwell pins        85
+Ground net VSS                0/77
+Unconnected ground pins       8
+Unconnected pwell pins        85
+--------------------------------------------------------------------------------
+Information: connections of 154 power/ground pin(s) are created or changed. (MV-382)
+
+1
+fc_shell> create_pg_strap -net VDD -layer M5 -direction vertical   -width 0.24 -pitch 8 -start 1.5 -stop 18
+Information: The command 'create_pg_strap' cleared the undo history. (UNDO-016)
+Overall via DRC checking runtime: 0 seconds.
+Checking 0 stacked vias: 0% 100%
+Committed 3 wires.
+Committed 0 vias.
+Overall runtime: 0 seconds.
+Successfully created PG wire.
+1
+fc_shell> create_pg_strap -net VSS -layer M5 -direction vertical   -width 0.24 -pitch 8 -start 3   -stop 18
+Overall via DRC checking runtime: 0 seconds.
+Checking 0 stacked vias: 0% 100%
+Committed 2 wires.
+Committed 0 vias.
+Overall runtime: 0 seconds.
+Successfully created PG wire.
+1
+fc_shell> create_pg_strap -net VDD -layer M4 -direction horizontal -width 0.24 -pitch 8 -start 1.5 -stop 18
+Checking DRC for 9 stacked vias:: 0% 100%
+Overall via DRC checking runtime: 0 seconds.
+Checking 9 stacked vias: 0% 100%
+Committed 3 wires.
+Committed 9 vias.
+Overall runtime: 0 seconds.
+Successfully created PG wire.
+1
+fc_shell> create_pg_strap -net VSS -layer M4 -direction horizontal -width 0.24 -pitch 8 -start 3   -stop 18
+Checking DRC for 4 stacked vias:: 0% 100%
+Overall via DRC checking runtime: 0 seconds.
+Checking 4 stacked vias: 0% 100%
+Committed 2 wires.
+Committed 4 vias.
+Overall runtime: 0 seconds.
+Successfully created PG wire.
+1
+fc_shell> compile_fusion -to logic_opto
+Information: Enabling runtime flow for U-2022 (FLW-3600)
+INFO: compile_fusion is running in balanced flow mode.
+INFO: EIO v5 is enabled
+INFO: Cost Function Configuration 0.5/0.5/0.5/0.5
+Information: Structural Congestion Optimization technology (Early SCO) has been enabled. (SCO-0001)
+Information: Starting 'compile_fusion -to logic_opto' (FLW-8000)
+Information: Time: 2026-10-27 11:01:14 / Session:  00:02:06 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB
+****************************************
+Report : report_tbcs
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:01:14 2026
+****************************************
+INFO: Start environment monitoring: recipes
+Information: Enabling runtime flow for U-2022 (FLW-3600)
+INFO: compile_fusion is running in balanced flow mode.
+INFO: EIO v5 is enabled
+INFO: Cost Function Configuration 0.5/0.5/0.5/0.5
+Information: The automatic clock gate timing flow is activated. Clock latencies set on clock gate cells will be automatically adjusted by an estimate for latency. (CGT-4005)
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / initial_map (FLW-8000)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:06 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / initial_map / Load Design (FLW-8000)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:06 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.04       853
+Information: Ending   compile_fusion / initial_map / Load Design (FLW-8001)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:07 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / MV Cell Insertion (FLW-8000)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:07 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+MV related app options set by user:
+  mv.pg.default_ground_supply_net_name = VSS
+  mv.pg.default_ground_supply_port_name = VSS
+  mv.pg.default_power_supply_net_name = VDD
+  mv.pg.default_power_supply_port_name = VDD
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.04       853
+Information: Ending   compile_fusion / initial_map / MV Cell Insertion (FLW-8001)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:07 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) (FLW-8000)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:07 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) / Constant and Equal Register Detection (FLW-8000)
+Information: Time: 2026-10-27 11:01:15 / Session:  00:02:07 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Register Bits Before Sharing = 0, After Sharing = 0, Savings = 0 (SQM-2000)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.04       853
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) / Constant and Equal Register Detection (FLW-8001)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:07 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) / Register Merging (FLW-8000)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:07 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.04       853
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) / Register Merging (FLW-8001)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:07 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (1) / Constant Propagation and Register Optimization (FLW-8000)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:07 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.04       853
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) / Constant Propagation and Register Optimization (FLW-8001)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:07 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.92           -         115              0.04       853
+Information: Ending   compile_fusion / initial_map / Logic Simplification (1) (FLW-8001)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:07 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Timer using 1 threads
+Information: Starting compile_fusion / initial_map / High-Level Optimization and Technology Mapping (FLW-8000)
+Information: Time: 2026-10-27 11:01:16 / Session:  00:02:08 / Command:  00:00:01 / CPU:  00:00:01 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module alu. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module RS_OP_21_55109_40986_J1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module DW01_sub_J1_H1_D1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module DW01_sub_J1_H2_D1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module snps_SELECT_18. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module alu. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module RS_OP_21_55109_40986_J1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module DW01_sub_J1_H1_D1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module DW01_sub_J1_H2_D1. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module snps_SELECT_18. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: No cell bus will be mapped to multibit because multibit mapping has been disabled by user. (SQM-1034)
+Information: Shift register Inferencing is enabled so only head flop will be replaced with scan cell and not all registers in shift register chains are scan replaced. (SQM-1074)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module context. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module snps_SELECT_18. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module context. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module snps_SELECT_18. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: No cell bus will be mapped to multibit because multibit mapping has been disabled by user. (SQM-1034)
+Information: Shift register Inferencing is enabled so only head flop will be replaced with scan cell and not all registers in shift register chains are scan replaced. (SQM-1074)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.74           -         114              0.04       853
+Information: Ending   compile_fusion / initial_map / High-Level Optimization and Technology Mapping (FLW-8001)
+Information: Time: 2026-10-27 11:01:17 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: No valid clocks available in design 'alu'. Setting clock frequency to 1 GHz. (POW-034)
+Warning: No valid clocks available in design 'alu'. Setting clock frequency to 1 GHz. (POW-034)
+Information: Starting compile_fusion / initial_map / DFT Core Wrapper Analysis (FLW-8000)
+Information: Time: 2026-10-27 11:01:17 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.74           -         114              0.04       853
+Information: Ending   compile_fusion / initial_map / DFT Core Wrapper Analysis (FLW-8001)
+Information: Time: 2026-10-27 11:01:17 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Starting compile_fusion / initial_map / Logic Simplification (2) (FLW-8000)
+Information: Time: 2026-10-27 11:01:17 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 854 MB (FLW-8100)
+Information: CPU Load: 3%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Register Bits Before Sharing = 0, After Sharing = 0, Savings = 0 (SQM-2000)
+Information: Starting compile_fusion / initial_map / Logic Simplification (2) / Constant Propagation and Register Optimization (FLW-8000)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.74           -         114              0.04       872
+Information: Ending   compile_fusion / initial_map / Logic Simplification (2) / Constant Propagation and Register Optimization (FLW-8001)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.74           -         114              0.04       872
+Information: Ending   compile_fusion / initial_map / Logic Simplification (2) (FLW-8001)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Warning: There is no integrated clock-gating cell in the technology library that satisfies the specified style and operating condition for module alu. No Clock Gating insertion will be done in this module. (CGT-3300)
+Warning: Starting step 'fc/initial_map/ReportMbStats' while step 'fc/initial_map/seqremapBank' is still alive. In case 'fc/initial_map/seqremapBank' is a parent step of 'fc/initial_map/ReportMbStats', you might want to call the step ctor with that as argument (FLW-2200)
+Information: Result of compile_fusion / initial_map / Clock Gate Insertion (FLW-8500)
+--------------------------------------------------------------------------------
+|                             Clock Gating Options                             |
+--------------------------------------------------------------------------------
+|         Objects         |    Minimum Bitwidth     |      Maximum Fanout      |
+--------------------------+-------------------------+---------------------------
+|   top-level (design)    |          3 (d)          |      Unlimited (d)       |
+--------------------------------------------------------------------------------
+
+Number of Pre-Existing Clock Gates with dont touch attribute: 0
+Number of ICG library cells with CTS purpose: 0
+---------------------------------------------------------------------------------------------
+                          Tool Gated Register Summary                                        
+---------------------------------------------------------------------------------------------
+Clock Gating Type                   | Number of   | Register Count | Equivalent | % of Gated 
+                                    | Clock Gates |                | Bitwidth   | Bits       
+---------------------------------------------------------------------------------------------
+Regular Clock Gating                |           0 |              0 |          0 |     0.00%
+---------------------------------------------------------------------------------------------
+Compile-fusion optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Compile-fusion                                          -           -         -         -         39.74           -         114              0.04       872
+
+Information: Runtime Summary (compile_fusion / initial_map)  (FLW-9001)
+----------------------------------------------------------------------------
+     Elapse(Hr:Min:Sec)     Elapse(%)     Category
+----------------------------------------------------------------------------
+       00:00:00             14.4%         Load Design 
+       00:00:00              0.1%         MV Cell Insertion 
+       00:00:00              0.1%         Logic Simplification (1) 
+       00:00:00             17.7%         Logic Simplification (1)/Constant and Equal Register Detection 
+       00:00:00              0.1%         Logic Simplification (1)/Register Merging 
+       00:00:00              7.8%         Logic Simplification (1)/Constant Propagation and Register Optimization 
+       00:00:01             43.8%         High-Level Optimization and Technology Mapping 
+       00:00:00              0.1%         DFT Core Wrapper Analysis 
+       00:00:00              4.9%         Logic Simplification (2) 
+       00:00:00              1.0%         Logic Simplification (2)/Constant Propagation and Register Optimization 
+       00:00:00             10.0%         Other 
+----------------------------------------------------------------------------
+       00:00:02            100.0%         Total 
+----------------------------------------------------------------------------
+
+Host Options:
+-------------
+Max cores: 1
+
+Machine Spec:
+-------------
+11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz / 16 CPUs  
+Sockets: 1, Cores: 8, HT/SMT, not-VM
+----------------------------------------------------------------------------
+
+Information: Ending   compile_fusion / initial_map (FLW-8001)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+
+Information: >>>>>>> 5 unique error and warning message tags while observing compile_fusion / initial_map: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     2     1  0 FLW-2200  WARNING   Warning: Starting step 'fc/initial_map/ReportMbStats' while ... (MSG-3032)
+Information:     7     7 10 SQM-1067  WARNING   Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_2' i... (MSG-3032)
+Information:     3     2  1 SQM-1034  WARNING   Warning: No cell bus will be mapped to multibit because mult... (MSG-3032)
+Information:    22    15  0 CGT-3300  WARNING   Warning: There is no integrated clock-gating cell in the tec... (MSG-3032)
+Information:     4     2 10 POW-034   WARNING   Warning: No valid clocks available in design 'alu'. Setting ... (MSG-3032)
+Information:    38    27  3        5  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 27 error&warning MSGs observed during compile_fusion / initial_map (MSG-3103)
+
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / logic_opto (FLW-8000)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / logic_opto / Load Design (FLW-8000)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Information: Added key list 'DesignWare' to design 'alu'. (DWS-0216)
+Information: Change threshold for extractor is reset. (FLW-1300)
+Warning: no valid parasitic for BEST corner(LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Information: The stitching and editing of coupling caps is turned OFF for design 'rca_lib:alu.design'. (TIM-125)
+Warning: The extractor can not be initialized for block 'alu'. (TIM-103)
+Warning: The extractor can not be initialized for design 'alu'. Zero interconnect delay is used in timing analysis. (TIM-102)
+Error: No valid parasitics for LATE corner BEST. Please make sure the net parasitics are setup properly for the design. Related command: set_parasitics_parameters (SCN-1001)
+Error: No valid parasitics for EARLY corner BEST. Please make sure the net parasitics are setup properly for the design. Related command: set_parasitics_parameters (SCN-1001)
+Warning: Flow step returns Error: fc/logic_opto/mcmmStart (FLW-2543)
+Error: Flow status set to Error by step: fc/logic_opto/mcmmStart (FLW-1762)
+Warning: Incomplete compile_fusion / logic_opto / Load Design (FLW-8004)
+
+Information: Runtime Summary (compile_fusion / logic_opto)  (FLW-9001)
+----------------------------------------------------------------------------
+     Elapse(Hr:Min:Sec)     Elapse(%)     Category
+----------------------------------------------------------------------------
+      2023406814          -88209.6%         Load Design 
+       00:02:09          88309.6%         Other 
+----------------------------------------------------------------------------
+       00:00:00            100.0%         Total 
+----------------------------------------------------------------------------
+
+Host Options:
+-------------
+Max cores: 1
+
+Machine Spec:
+-------------
+11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz / 16 CPUs  
+Sockets: 1, Cores: 8, HT/SMT, not-VM
+----------------------------------------------------------------------------
+
+Information: Ending   compile_fusion / logic_opto (FLW-8001)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:09 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+
+Information: >>>>>>> 7 unique error and warning message tags while observing compile_fusion / logic_opto: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     1     1  0 FLW-2543  WARNING   Warning: Flow step returns Error: fc/logic_opto/mcmmStart (F... (MSG-3032)
+Information:     1     1  0 FLW-8004  WARNING   Warning: Incomplete compile_fusion / logic_opto / Load Desig... (MSG-3032)
+Information:     1     1  0 TIM-103   WARNING   Warning: The extractor can not be initialized for block 'alu... (MSG-3032)
+Information:     1     1  0 TIM-102   WARNING   Warning: The extractor can not be initialized for design 'al... (MSG-3032)
+Information:     3     3  0 NEX-018   WARNING   Warning: no valid parasitic for (all corners) corner((both s... (MSG-3032)
+Information:     2     2  0 SCN-1001  ERROR     Error: No valid parasitics for EARLY corner BEST. Please mak... (MSG-3032)
+Information:     1     1  0 FLW-1762  ERROR     Error: Flow status set to Error by step: fc/logic_opto/mcmmS... (MSG-3032)
+Information:    10    10  0        7  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 10 error&warning MSGs observed during compile_fusion / logic_opto (MSG-3103)
+
+INFO: End environment monitoring: recipes
+INFO: Restored 0 timer status, 5 app options, 0 tcl gvars, 0 env vars
+Information: >>>>>>> 12 unique error and warning message tags while observing fusion: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     1     1  0 FLW-2543  WARNING   Warning: Flow step returns Error: fc/logic_opto/mcmmStart (F... (MSG-3032)
+Information:     2     1  0 FLW-2200  WARNING   Warning: Starting step 'fc/initial_map/ReportMbStats' while ... (MSG-3032)
+Information:     7    14 10 SQM-1067  WARNING   Warning: Mapping to scan cell 'SAEDLVT14_FSDPRBSBQ_V2LP_2' i... (MSG-3032)
+Information:     3     2  1 SQM-1034  WARNING   Warning: No cell bus will be mapped to multibit because mult... (MSG-3032)
+Information:    22    15  0 CGT-3300  WARNING   Warning: There is no integrated clock-gating cell in the tec... (MSG-3032)
+Information:     1     1  0 FLW-8004  WARNING   Warning: Incomplete compile_fusion / logic_opto / Load Desig... (MSG-3032)
+Information:     1     1  0 TIM-103   WARNING   Warning: The extractor can not be initialized for block 'alu... (MSG-3032)
+Information:     1     1  0 TIM-102   WARNING   Warning: The extractor can not be initialized for design 'al... (MSG-3032)
+Information:     4     2 10 POW-034   WARNING   Warning: No valid clocks available in design 'alu'. Setting ... (MSG-3032)
+Information:     3     3  0 NEX-018   WARNING   Warning: no valid parasitic for (all corners) corner((both s... (MSG-3032)
+Information:     2     2  0 SCN-1001  ERROR     Error: No valid parasitics for EARLY corner BEST. Please mak... (MSG-3032)
+Information:     1     1  0 FLW-1762  ERROR     Error: Flow status set to Error by step: fc/logic_opto/mcmmS... (MSG-3032)
+Information:    48    44  3       12  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 44 error&warning MSGs observed during fusion (MSG-3103)
+
+  Block: rca_lib:alu.design
+  Current State: is mapped; has non-collapsed synth_ref; 
+  Events:
+        - initial_map                   10/27/26 11:00 -->     0.001 hours
+        - initial_map                   10/27/26 11:01 -->     0.001 hours
+        - logic_opto                    10/27/26 11:01 -->
+
+1
+Information: Ending   'compile_fusion -to logic_opto' (FLW-8001)
+Information: Time: 2026-10-27 11:01:18 / Session:  00:02:10 / Command:  00:00:03 / CPU:  00:00:03 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Error: 1
+        Use error_info for more info. (CMD-013)
+fc_shell> save_block -as logic_opto
+Information: Saving 'rca_lib:alu.design' to 'rca_lib:logic_opto.design'. (DES-028)
+1
+fc_shell> compile_fusion -to final_opto
+Information: Enabling runtime flow for U-2022 (FLW-3600)
+INFO: compile_fusion is running in balanced flow mode.
+INFO: EIO v5 is enabled
+INFO: Cost Function Configuration 0.5/0.5/0.5/0.5
+Information: Structural Congestion Optimization technology (Early SCO) has been enabled. (SCO-0001)
+Information: Starting 'compile_fusion -to final_opto' (FLW-8000)
+Information: Time: 2026-10-27 11:01:24 / Session:  00:02:16 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB
+****************************************
+Report : report_tbcs
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:01:24 2026
+****************************************
+INFO: Start environment monitoring: recipes
+Information: Enabling runtime flow for U-2022 (FLW-3600)
+INFO: compile_fusion is running in balanced flow mode.
+INFO: EIO v5 is enabled
+INFO: Cost Function Configuration 0.5/0.5/0.5/0.5
+Information: The automatic clock gate timing flow is activated. Clock latencies set on clock gate cells will be automatically adjusted by an estimate for latency. (CGT-4005)
+----------------------------------------------------------------------------------------------------------
+Information: Starting compile_fusion / initial_map (FLW-8000)
+Information: Time: 2026-10-27 11:01:24 / Session:  00:02:16 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+----------------------------------------------------------------------------------------------------------
+Error: The preceding synthesis command aborted unexpectedly. Please revert to a previously saved version of the database (FLW-5560)
+Warning: Flow step returns Error: fc/initial_map/stageMarkerStart (FLW-2543)
+Error: Flow status set to Error by step: fc/initial_map/stageMarkerStart (FLW-1762)
+
+Information: Runtime Summary (compile_fusion / initial_map)  (FLW-9001)
+----------------------------------------------------------------------------
+     Elapse(Hr:Min:Sec)     Elapse(%)     Category
+----------------------------------------------------------------------------
+       00:00:00            100.0%         Other 
+----------------------------------------------------------------------------
+       00:00:00            100.0%         Total 
+----------------------------------------------------------------------------
+
+Host Options:
+-------------
+Max cores: 1
+
+Machine Spec:
+-------------
+11th Gen Intel(R) Core(TM) i7-11700 @ 2.50GHz / 16 CPUs  
+Sockets: 1, Cores: 8, HT/SMT, not-VM
+----------------------------------------------------------------------------
+
+Information: Ending   compile_fusion / initial_map (FLW-8001)
+Information: Time: 2026-10-27 11:01:24 / Session:  00:02:16 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+
+Information: >>>>>>> 3 unique error and warning message tags while observing compile_fusion / initial_map: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     2     1  0 FLW-2543  WARNING   Warning: Flow step returns Error: fc/initial_map/stageMarker... (MSG-3032)
+Information:     2     1  0 FLW-1762  ERROR     Error: Flow status set to Error by step: fc/initial_map/stag... (MSG-3032)
+Information:     1     1  0 FLW-5560  ERROR     Error: The preceding synthesis command aborted unexpectedly.... (MSG-3032)
+Information:     5     3  0        3  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 3 error&warning MSGs observed during compile_fusion / initial_map (MSG-3103)
+
+Information: Timer using 1 threads
+INFO: End environment monitoring: recipes
+INFO: Restored 0 timer status, 5 app options, 0 tcl gvars, 0 env vars
+Information: >>>>>>> 3 unique error and warning message tags while observing fusion: (MSG-3100)
+Information: #prnt #trgr #lmt    Tag  Level     Format (or last printed message)                                (MSG-3036)
+Information:     2     1  0 FLW-2543  WARNING   Warning: Flow step returns Error: fc/initial_map/stageMarker... (MSG-3032)
+Information:     2     1  0 FLW-1762  ERROR     Error: Flow status set to Error by step: fc/initial_map/stag... (MSG-3032)
+Information:     1     1  0 FLW-5560  ERROR     Error: The preceding synthesis command aborted unexpectedly.... (MSG-3032)
+Information:     5     3  0        3  <------   Total sum of messages (MSG-3038)
+Information: >>>>>>> Summary: 3 error&warning MSGs observed during fusion (MSG-3103)
+
+  Block: rca_lib:alu.design
+  Current State: is mapped; has non-collapsed synth_ref; 
+  Events:
+        - initial_map                   10/27/26 11:00 -->     0.001 hours
+        - initial_map                   10/27/26 11:01 -->     0.001 hours
+        - logic_opto                    10/27/26 11:01 -->
+
+1
+Information: Ending   'compile_fusion -to final_opto' (FLW-8001)
+Information: Time: 2026-10-27 11:01:24 / Session:  00:02:16 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Information: CPU Load: 5%, Ram Free: 0 GB, Swap Free: 5 GB, Work Disk Free: 287 GB, Tmp Disk Free: 61 GB (MSG-3995)
+Error: 1
+        Use error_info for more info. (CMD-013)
+fc_shell> save_block -as final_opto
+Information: Saving 'rca_lib:alu.design' to 'rca_lib:final_opto.design'. (DES-028)
+1
+fc_shell> create_routing_rule 2w2s  -spacings {M1 0.052 M2 0.052 M3 0.052 M4 0.08 M5 0.08 M6 0.08 M7 0.08 M8 0.08 M9 0.08}  -widths   {M1 0.068 M2 0.068 M3 0.068 M4 0.12 M5 0.12 M6 0.12 M7 0.12 M8 0.12 M9 0.12}  -default_reference_rule
+{2w2s}
+fc_shell> set_clock_routing_rules -net_type root     -rule 2w2s -min_routing_layer M4 -max_routing_layer M8
+Information: The command 'set_clock_routing_rules' cleared the undo history. (UNDO-016)
+1
+fc_shell> set_clock_routing_rules -net_type internal -rule 2w2s -min_routing_layer M4 -max_routing_layer M8
+1
+fc_shell> set_clock_routing_rules -net_type sink     -min_routing_layer M4 -max_routing_layer M6 -default_rule
+1
+fc_shell> clock_opt -from build_clock -to route_clock
+Information: Starting 'clock_opt -from build_clock -to route_clock' (FLW-8000)
+Information: Time: 2026-10-27 11:02:54 / Session:  00:03:45 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+INFO: Running medium effort clock_opt flow.
+INFO: clock_opt is running in balanced flow mode.
+Warning: no valid parasitic for BEST corner(LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Error: No corner has valid parasitic. Please provide valid parasitic for at least one corner.
+Warning: Cannot find any default max transition constraint on the design. (OPT-070)
+Information: Running auto PG connection. (NDM-099)
+Information: Ending   'clock_opt -from build_clock -to route_clock' (FLW-8001)
+Information: Time: 2026-10-27 11:02:54 / Session:  00:03:45 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Error: 0
+        Use error_info for more info. (CMD-013)
+fc_shell> save_block -as route_clock
+Information: Saving 'rca_lib:alu.design' to 'rca_lib:route_clock.design'. (DES-028)
+1
+fc_shell> clock_opt -to final_opto
+Information: Starting 'clock_opt -to final_opto' (FLW-8000)
+Information: Time: 2026-10-27 11:02:54 / Session:  00:03:46 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+INFO: Running medium effort clock_opt flow.
+INFO: clock_opt is running in balanced flow mode.
+Warning: no valid parasitic for BEST corner(LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Error: No corner has valid parasitic. Please provide valid parasitic for at least one corner.
+Warning: Cannot find any default max transition constraint on the design. (OPT-070)
+Information: Running auto PG connection. (NDM-099)
+Information: Ending   'clock_opt -to final_opto' (FLW-8001)
+Information: Time: 2026-10-27 11:02:54 / Session:  00:03:46 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Error: 0
+        Use error_info for more info. (CMD-013)
+fc_shell> save_block -as clock_final_opto
+Information: Saving 'rca_lib:alu.design' to 'rca_lib:clock_final_opto.design'. (DES-028)
+1
+fc_shell> route_auto
+Warning: Please run the command "check_routability" before running Zroute commands. (ZRT-762)
+Information: Starting 'route_auto' (FLW-8000)
+Information: Time: 2026-10-27 11:03:03 / Session:  00:03:54 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 873 MB (FLW-8100)
+Warning: max_routing_layer is not set in the design.
+NEX(Warning): extract.rc_techfile_for_diode_mode_26_thickness not set, will igonre it
+Cell Min-Routing-Layer = M1
+Cell Max-Routing-Layer = MRDL
+Turn off antenna since no rule is specified
+Information: Option route.detail.force_end_on_preferred_grid will be ignored since none of the layers have preferred grid. (ZRT-703)
+Warning: Cannot find a default contact code for layer VIA0. (ZRT-022)
+Warning: Port A[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port zero of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port VDD of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port VSS of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Ignore 30 top cell ports with no pins. (ZRT-027)
+Info: number of net_type_blockage: 0 
+Error: Cell ctmi_262 is not placed. (ZRT-064)
+Error: Cell ctmi_263 is not placed. (ZRT-064)
+Error: Cell ctmi_277 is not placed. (ZRT-064)
+Error: Cell ctmi_287 is not placed. (ZRT-064)
+Error: Cell ctmi_294 is not placed. (ZRT-064)
+Error: Cell ctmi_302 is not placed. (ZRT-064)
+Error: Cell ctmi_308 is not placed. (ZRT-064)
+Error: Cell ctmi_315 is not placed. (ZRT-064)
+Error: Cell ctmi_322 is not placed. (ZRT-064)
+Error: Cell ctmi_330 is not placed. (ZRT-064)
+Error: Cell ctmi_331 is not placed. (ZRT-064)
+Error: Cell ctmi_323 is not placed. (ZRT-064)
+Error: Cell ctmi_332 is not placed. (ZRT-064)
+Error: Cell ctmi_324 is not placed. (ZRT-064)
+Error: Cell ctmi_325 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_2 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_3 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_4 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_5 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_6 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_7 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_8 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_9 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_28 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_30 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_33 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_35 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_38 is not placed. (ZRT-064)
+Error: Cell ctmi_326 is not placed. (ZRT-064)
+Error: Cell ctmi_278 is not placed. (ZRT-064)
+Error: Cell ctmi_279 is not placed. (ZRT-064)
+Error: Cell ctmi_280 is not placed. (ZRT-064)
+Error: Cell ctmi_281 is not placed. (ZRT-064)
+Error: Cell ctmi_282 is not placed. (ZRT-064)
+Error: Cell ctmi_288 is not placed. (ZRT-064)
+Error: Cell ctmi_289 is not placed. (ZRT-064)
+Error: Cell ctmi_290 is not placed. (ZRT-064)
+Error: Cell ctmi_291 is not placed. (ZRT-064)
+Error: Cell ctmi_292 is not placed. (ZRT-064)
+Error: Cell ctmi_293 is not placed. (ZRT-064)
+Error: Cell ctmi_295 is not placed. (ZRT-064)
+Error: Cell ctmi_296 is not placed. (ZRT-064)
+Error: Cell ctmi_297 is not placed. (ZRT-064)
+Error: Cell ctmi_298 is not placed. (ZRT-064)
+Error: Cell ctmi_299 is not placed. (ZRT-064)
+Error: Cell ctmi_300 is not placed. (ZRT-064)
+Error: Cell ctmi_301 is not placed. (ZRT-064)
+Error: Cell ctmi_303 is not placed. (ZRT-064)
+Error: Cell ctmi_304 is not placed. (ZRT-064)
+Error: Cell ctmi_305 is not placed. (ZRT-064)
+Error: Cell ctmi_306 is not placed. (ZRT-064)
+Error: Cell ctmi_307 is not placed. (ZRT-064)
+Error: Cell ctmi_309 is not placed. (ZRT-064)
+Error: Cell ctmi_310 is not placed. (ZRT-064)
+Error: Cell ctmi_311 is not placed. (ZRT-064)
+Error: Cell ctmi_312 is not placed. (ZRT-064)
+Error: Cell ctmi_313 is not placed. (ZRT-064)
+Error: Cell ctmi_314 is not placed. (ZRT-064)
+Error: Cell ctmi_316 is not placed. (ZRT-064)
+Error: Cell ctmi_317 is not placed. (ZRT-064)
+Error: Cell ctmi_318 is not placed. (ZRT-064)
+Error: Cell ctmi_319 is not placed. (ZRT-064)
+Error: Cell ctmi_320 is not placed. (ZRT-064)
+Error: Cell ctmi_321 is not placed. (ZRT-064)
+Error: Cell ctmi_327 is not placed. (ZRT-064)
+Error: Cell ctmi_328 is not placed. (ZRT-064)
+Error: Cell ctmi_329 is not placed. (ZRT-064)
+Error: Cell ctmi_283 is not placed. (ZRT-064)
+Error: Cell ctmi_284 is not placed. (ZRT-064)
+Error: Cell ctmi_285 is not placed. (ZRT-064)
+Error: Cell ctmi_286 is not placed. (ZRT-064)
+Error: Cell ctmi_257 is not placed. (ZRT-064)
+Error: Cell ctmi_258 is not placed. (ZRT-064)
+Error: Cell ctmi_259 is not placed. (ZRT-064)
+Error: Cell ctmi_260 is not placed. (ZRT-064)
+Error: Cell ctmi_261 is not placed. (ZRT-064)
+Error: Cell ctmi_264 is not placed. (ZRT-064)
+Error: Cell ctmi_265 is not placed. (ZRT-064)
+Error: Cell ctmi_266 is not placed. (ZRT-064)
+Error: Cell ctmi_267 is not placed. (ZRT-064)
+Error: Cell ctmi_268 is not placed. (ZRT-064)
+Error: Cell ctmi_269 is not placed. (ZRT-064)
+Error: Cell ctmi_270 is not placed. (ZRT-064)
+Error: Cell ctmi_271 is not placed. (ZRT-064)
+Error: Cell ctmi_272 is not placed. (ZRT-064)
+Error: Cell ctmi_273 is not placed. (ZRT-064)
+Error: Cell ctmi_274 is not placed. (ZRT-064)
+Error: Cell ctmi_275 is not placed. (ZRT-064)
+Error: Cell ctmi_276 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_40 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_43 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_0 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_1 is not placed. (ZRT-064)
+Information: Via ladder engine would be activated for pattern must join connection in certain commands. Please refer to man-page for the command list. (ZRT-619)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M1 default pitch 0.074 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.074" & "wire/via-up 0.078". (ZRT-026)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M2 default pitch 0.060 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.078" & "wire/via-up 0.060". (ZRT-026)
+Via on layer (VIA4) needs more than one tracks
+Warning: Layer M5 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.120" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M7 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 0.102". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M8 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.102" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer M9 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 1.570". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer MRDL default pitch 4.000 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 4.500" & "wire/via-up 4.000". (ZRT-026)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 0.90 outside the layer range. (ZRT-707)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 0.90 outside the layer range on clock nets. (ZRT-718)
+Information: When applicable layer based tapering will taper up to 0.00 in distance from the pin. (ZRT-706)
+
+    Found 0 via ladders to verify.
+
+VIA LADDER INFO: found 0 via ladder DRCs across 0 nets.
+Updating the database ...
+
+    Via ladders will be inserted on 0 of 0 ports with via ladder constraints.
+
+Updating the database ...
+[Arrange data for GR] Elapsed real time: 0:00:00 
+[Arrange data for GR] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Arrange data for GR] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Arrange data for GR] Total (MB): Used   28  Alloctr   29  Proc 4525 
+Start Global Route ... 
+[Init] Elapsed real time: 0:00:00 
+[Init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Init] Total (MB): Used   32  Alloctr   33  Proc 4525 
+Printing options for 'route.common.*'
+
+Printing options for 'route.global.*'
+
+Begin global routing.
+Constructing data structure ...
+Design statistics:
+Design Bounding Box (0.00um,0.00um,21.91um,21.80um)
+Number of routing layers = 10
+layer M1, dir Ver, min width = 0.034um, min space = 0.026um pitch = 0.074um
+layer M2, dir Hor, min width = 0.034um, min space = 0.026um pitch = 0.06um
+layer M3, dir Ver, min width = 0.034um, min space = 0.026um pitch = 0.074um
+layer M4, dir Hor, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M5, dir Ver, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M6, dir Hor, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M7, dir Ver, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M8, dir Hor, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer M9, dir Ver, min width = 0.06um, min space = 0.04um pitch = 0.1um
+layer MRDL, dir Hor, min width = 2um, min space = 2um pitch = 4um
+Current Stage stats:
+[End of Build Tech Data] Elapsed real time: 0:00:00 
+[End of Build Tech Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Tech Data] Stage (MB): Used    1  Alloctr    1  Proc    0 
+[End of Build Tech Data] Total (MB): Used   37  Alloctr   38  Proc 4525 
+Net statistics:
+Total number of nets     = 2
+Number of nets to route  = 0
+Number of single or zero port nets = 2
+Current Stage stats:
+[End of Build All Nets] Elapsed real time: 0:00:00 
+[End of Build All Nets] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build All Nets] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Build All Nets] Total (MB): Used   37  Alloctr   38  Proc 4525 
+Net length statistics: 
+Net Count(Ignore Fully Rted) 0, Total Half Perimeter Wire Length (HPWL) 0 microns
+HPWL   0 ~   50 microns: Net Count        0     Total HPWL            0 microns
+HPWL  50 ~  100 microns: Net Count        0     Total HPWL            0 microns
+HPWL 100 ~  200 microns: Net Count        0     Total HPWL            0 microns
+HPWL 200 ~  300 microns: Net Count        0     Total HPWL            0 microns
+HPWL 300 ~  400 microns: Net Count        0     Total HPWL            0 microns
+HPWL 400 ~  500 microns: Net Count        0     Total HPWL            0 microns
+HPWL 500 ~  600 microns: Net Count        0     Total HPWL            0 microns
+HPWL 600 ~  700 microns: Net Count        0     Total HPWL            0 microns
+HPWL 700 ~  800 microns: Net Count        0     Total HPWL            0 microns
+HPWL 800 ~  900 microns: Net Count        0     Total HPWL            0 microns
+HPWL 900 ~ 1000 microns: Net Count        0     Total HPWL            0 microns
+HPWL     > 1000 microns: Net Count        0     Total HPWL            0 microns
+Number of partitions: 1 (1 x 1)
+Size of partitions: 37 gCells x 37 gCells
+Average gCell capacity  7.97     on layer (1)    M1
+Average gCell capacity  9.78     on layer (2)    M2
+Average gCell capacity  7.97     on layer (3)    M3
+Average gCell capacity  5.24     on layer (4)    M4
+Average gCell capacity  5.27     on layer (5)    M5
+Average gCell capacity  5.86     on layer (6)    M6
+Average gCell capacity  5.89     on layer (7)    M7
+Average gCell capacity  5.86     on layer (8)    M8
+Average gCell capacity  5.89     on layer (9)    M9
+Average gCell capacity  0.11     on layer (10)   MRDL
+Average number of tracks per gCell 8.03  on layer (1)    M1
+Average number of tracks per gCell 9.84  on layer (2)    M2
+Average number of tracks per gCell 8.03  on layer (3)    M3
+Average number of tracks per gCell 5.92  on layer (4)    M4
+Average number of tracks per gCell 5.95  on layer (5)    M5
+Average number of tracks per gCell 5.92  on layer (6)    M6
+Average number of tracks per gCell 5.95  on layer (7)    M7
+Average number of tracks per gCell 5.92  on layer (8)    M8
+Average number of tracks per gCell 5.95  on layer (9)    M9
+Average number of tracks per gCell 0.16  on layer (10)   MRDL
+Number of gCells = 13690
+Current Stage stats:
+[End of Build Congestion Map] Elapsed real time: 0:00:00 
+[End of Build Congestion Map] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Congestion Map] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Build Congestion Map] Total (MB): Used   38  Alloctr   38  Proc 4525 
+Current Stage stats:
+[End of Add Nets Demand] Elapsed real time: 0:00:00 
+[End of Add Nets Demand] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Add Nets Demand] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Add Nets Demand] Total (MB): Used   38  Alloctr   38  Proc 4525 
+Number of user frozen nets = 0
+Total stats:
+[End of Build Data] Elapsed real time: 0:00:00 
+[End of Build Data] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Build Data] Stage (MB): Used    1  Alloctr    2  Proc    0 
+[End of Build Data] Total (MB): Used   38  Alloctr   38  Proc 4525 
+Current Stage stats:
+[End of Blocked Pin Detection] Elapsed real time: 0:00:00 
+[End of Blocked Pin Detection] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Blocked Pin Detection] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Blocked Pin Detection] Total (MB): Used   38  Alloctr   38  Proc 4525 
+Information: Using 1 threads for routing. (ZRT-444)
+Information: Multiple gcell levels ON
+Information: Buffer distance is estimated to be ~271.0000um (451 gCells)
+
+Start GR phase 0
+Number of partitions: 1 (1 x 1)
+Size of partitions: 37 gCells x 37 gCells
+[rtAllBotParts] Elapsed real time: 0:00:00 
+[rtAllBotParts] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[rtTop] Elapsed real time: 0:00:00 
+[rtTop] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+Current Stage stats:
+[End of Initial Routing] Elapsed real time: 0:00:00 
+[End of Initial Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Initial Routing] Stage (MB): Used  176  Alloctr  176  Proc  144 
+[End of Initial Routing] Total (MB): Used  214  Alloctr  214  Proc 4669 
+Initial. Routing result:
+Initial. Both Dirs: Dmd-Cap  =     0 Max = 0 GRCs =     0 (0.00%)
+Initial. H routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. V routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. Both Dirs: Overflow =     0 Max = 0 GRCs =     0 (0.00%)
+Initial. H routing: Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. V routing: Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M1         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M2         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M3         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M4         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M5         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M6         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M7         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M8         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. M9         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+Initial. MRDL       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+Initial. Total Wire Length = 0.00
+Initial. Layer M1 wire length = 0.00
+Initial. Layer M2 wire length = 0.00
+Initial. Layer M3 wire length = 0.00
+Initial. Layer M4 wire length = 0.00
+Initial. Layer M5 wire length = 0.00
+Initial. Layer M6 wire length = 0.00
+Initial. Layer M7 wire length = 0.00
+Initial. Layer M8 wire length = 0.00
+Initial. Layer M9 wire length = 0.00
+Initial. Layer MRDL wire length = 0.00
+Initial. Total Number of Contacts = 0
+Initial. Via VIA1_Base count = 0
+Initial. Via VIA2_Base count = 0
+Initial. Via VIA3_34SQ count = 0
+Initial. Via VIA4SQ count = 0
+Initial. Via VIA5SQ_C count = 0
+Initial. Via VIA67SQ_C count = 0
+Initial. Via VIA78SQ count = 0
+Initial. Via VIA89_Base count = 0
+Initial. Via VIA9RDL count = 0
+Initial. completed.
+
+Start GR phase 1
+Tue Oct 27 11:03:03 2026
+Number of partitions: 1 (1 x 1)
+Size of partitions: 37 gCells x 37 gCells
+[rtAllParts] Elapsed real time: 0:00:00 
+[rtAllParts] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+Current Stage stats:
+[End of Phase1 Routing] Elapsed real time: 0:00:00 
+[End of Phase1 Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Phase1 Routing] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of Phase1 Routing] Total (MB): Used  214  Alloctr  214  Proc 4669 
+phase1. Routing result:
+phase1. Both Dirs: Dmd-Cap  =     0 Max = 0 GRCs =     0 (0.00%)
+phase1. H routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. V routing: Dmd-Cap  =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. Both Dirs: Overflow =     0 Max = 0 GRCs =     0 (0.00%)
+phase1. H routing: Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. V routing: Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M1         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M2         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M3         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M4         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M5         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M6         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M7         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M8         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. M9         Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+phase1. MRDL       Overflow =     0 Max = 0 (GRCs =  0) GRCs =     0 (0.00%)
+
+phase1. Total Wire Length = 0.00
+phase1. Layer M1 wire length = 0.00
+phase1. Layer M2 wire length = 0.00
+phase1. Layer M3 wire length = 0.00
+phase1. Layer M4 wire length = 0.00
+phase1. Layer M5 wire length = 0.00
+phase1. Layer M6 wire length = 0.00
+phase1. Layer M7 wire length = 0.00
+phase1. Layer M8 wire length = 0.00
+phase1. Layer M9 wire length = 0.00
+phase1. Layer MRDL wire length = 0.00
+phase1. Total Number of Contacts = 0
+phase1. Via VIA1_Base count = 0
+phase1. Via VIA2_Base count = 0
+phase1. Via VIA3_34SQ count = 0
+phase1. Via VIA4SQ count = 0
+phase1. Via VIA5SQ_C count = 0
+phase1. Via VIA67SQ_C count = 0
+phase1. Via VIA78SQ count = 0
+phase1. Via VIA89_Base count = 0
+phase1. Via VIA9RDL count = 0
+phase1. completed.
+[End of Whole Chip Routing] Elapsed real time: 0:00:00 
+[End of Whole Chip Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Whole Chip Routing] Stage (MB): Used  177  Alloctr  178  Proc  144 
+[End of Whole Chip Routing] Total (MB): Used  214  Alloctr  214  Proc 4669 
+
+Congestion utilization per direction:
+Average vertical track utilization   =  0.00 %
+Peak    vertical track utilization   =  0.00 %
+Average horizontal track utilization =  0.00 %
+Peak    horizontal track utilization =  0.00 %
+
+[End of Global Routing] Elapsed real time: 0:00:00 
+[End of Global Routing] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of Global Routing] Stage (MB): Used  177  Alloctr  177  Proc  144 
+[End of Global Routing] Total (MB): Used  213  Alloctr  214  Proc 4669 
+Updating congestion ...
+Updating congestion ...
+[End of dbOut] Elapsed real time: 0:00:00 
+[End of dbOut] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[End of dbOut] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[End of dbOut] Total (MB): Used   64  Alloctr   65  Proc 4669 
+
+Start track assignment
+
+Printing options for 'route.common.*'
+
+Printing options for 'route.track.*'
+
+Information: Using 1 threads for routing. (ZRT-444)
+
+[Track Assign: TA init] Elapsed real time: 0:00:00 
+[Track Assign: TA init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Track Assign: TA init] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[Track Assign: TA init] Total (MB): Used   28  Alloctr   29  Proc 4669 
+Warning: Skipping track assignment because this design has no global routes. (ZRT-200)
+Printing options for 'route.common.*'
+
+Printing options for 'route.detail.*'
+
+Printing options for 'route.auto_via_ladder.*'
+
+[Dr init] Elapsed real time: 0:00:00 
+[Dr init] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Dr init] Stage (MB): Used   11  Alloctr   11  Proc    0 
+[Dr init] Total (MB): Used   40  Alloctr   40  Proc 4669 
+Total number of nets = 2, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+Information: Using 1 threads for routing. (ZRT-444)
+
+Switch to reduced partition bloat for speedup (DRC report is not accurate)
+Start DR iteration 0: uniform partition
+
+DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      0
+
+[Iter 0] Elapsed real time: 0:00:00 
+[Iter 0] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[Iter 0] Stage (MB): Used   91  Alloctr   91  Proc    0 
+[Iter 0] Total (MB): Used  119  Alloctr  120  Proc 4669 
+
+End DR iteration 0 with 16 parts
+
+
+Switch back to normal partition bloat and recalculate DRC:
+
+Begin full DRC check ...
+
+Information: Using 1 threads for routing. (ZRT-444)
+[DRC CHECK] Elapsed real time: 0:00:00 
+[DRC CHECK] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[DRC CHECK] Stage (MB): Used   91  Alloctr   91  Proc    0 
+[DRC CHECK] Total (MB): Used  119  Alloctr  120  Proc 4669 
+Finish DR since reached 0 DRC
+
+[DR] Elapsed real time: 0:00:00 
+[DR] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[DR] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[DR] Total (MB): Used   28  Alloctr   29  Proc 4669 
+[DR: Done] Elapsed real time: 0:00:00 
+[DR: Done] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[DR: Done] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[DR: Done] Total (MB): Used   28  Alloctr   29  Proc 4669 
+
+DR finished with 0 open nets, of which 0 are frozen
+
+DR finished with 0 violations
+
+DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      0
+
+
+
+Total Wire Length =                    0 micron
+Total Number of Contacts =             0
+Total Number of Wires =                0
+Total Number of PtConns =              0
+Total Number of Routed Wires =       0
+Total Routed Wire Length =           0 micron
+Total Number of Routed Contacts =       0
+        Layer       M1 :          0 micron
+        Layer       M2 :          0 micron
+        Layer       M3 :          0 micron
+        Layer       M4 :          0 micron
+        Layer       M5 :          0 micron
+        Layer       M6 :          0 micron
+        Layer       M7 :          0 micron
+        Layer       M8 :          0 micron
+        Layer       M9 :          0 micron
+        Layer     MRDL :          0 micron
+
+ 
+Redundant via conversion report:
+--------------------------------
+
+  Total optimized via conversion rate =  0.00% (0 / 0 vias)
+ 
+ 
+  Total double via conversion rate    =  0.00% (0 / 0 vias)
+ 
+ 
+  The optimized via conversion rate based on total routed via count =  0.00% (0 / 0 vias)
+ 
+ 
+
+Total number of nets = 2
+0 open nets, of which 0 are frozen
+Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
+                                 0 ports without pins of 0 cells connected to 0 nets
+                                 0 ports of 0 cover cells connected to 0 non-pg nets
+Total number of DRCs = 0
+Total number of antenna violations = antenna checking not active
+Information: Routes in non-preferred voltage areas = 0 (ZRT-559)
+
+Updating the database ...
+Information: Ending   'route_auto' (FLW-8001)
+Information: Time: 2026-10-27 11:03:03 / Session:  00:03:55 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 1017 MB (FLW-8100)
+fc_shell> route_opt
+Information: Starting 'route_opt' (FLW-8000)
+Information: Time: 2026-10-27 11:03:03 / Session:  00:03:55 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 1017 MB (FLW-8100)
+INFO: route_opt is running in balanced flow mode
+Warning: SI analysis is not enabled for post-route optimization. (ROPT-002)
+Warning: Cannot find any default max transition constraint on the design. (OPT-070)
+INFO: Leakage Power Aware Optimization Enabled
+RO is run without TCE settings 
+Route-opt command begin                   CPU:    25 s (  0.01 hr )  ELAPSE:   235 s (  0.07 hr )  MEM-PEAK:  1016 MB
+Warning: SI analysis is not enabled for post-route optimization. (ROPT-002)
+Warning: Cannot find any default max transition constraint on the design. (OPT-070)
+INFO: place.legalize.enable_advanced_legalizer not set - need to revert CLO
+INFO: Concurrent Legalization and Optimization (CLO) Reverted
+INFO: place.legalize.enable_advanced_legalizer not set - need to revert CLO
+Warning: no valid parasitic for BEST corner(LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Information: The stitching and editing of coupling caps is turned OFF for design 'rca_lib:alu.design'. (TIM-125)
+Warning: The extractor can not be initialized for block 'alu'. (TIM-103)
+Warning: The extractor can not be initialized for design 'alu'. Zero interconnect delay is used in timing analysis. (TIM-102)
+Warning: Batch extraction is skipped for block "alu"
+************************************************************
+Timer Settings:
+Delay Calculation Style:                   auto
+Signal Integrity Analysis:                 disabled
+Timing Window Analysis:                    disabled
+Advanced Waveform Propagation:             disabled
+Variation Type:                            fixed_derate
+Clock Reconvergence Pessimism Removal:     disabled
+Advanced Receiver Model:                   disabled
+LLE:                                       disabled
+ML Acceleration:                           off
+Smart Arc Optimization:                    disabled
+************************************************************
+Info: update em.
+
+Route-opt timing update complete          CPU:    25 s (  0.01 hr )  ELAPSE:   235 s (  0.07 hr )  MEM-PEAK:  1016 MB
+INFO: Propagating Switching Activities
+Information: Activity propagation will be performed for scenario BEST.
+Information: Doing activity propagation for mode 'BEST' and corner 'BEST' with effort level 'medium'. (POW-024)
+Information: Timer-derived activity data is cached on scenario BEST (POW-052)
+Information: Running switching activity propagation in scalar mode!
+
+ **** Information : No. of simulation cycles = 6 ****
+INFO: Switching Activity propagation took     0.00002 sec
+INFO: Propagating Switching Activity for all power flows 
+
+Route-opt initial QoR
+_____________________
+Scenario Mapping Table
+1: BEST
+
+Pathgroup Mapping Table
+1: **default**
+2: **async_default**
+3: **clock_gating_default**
+4: **in2reg_default**
+5: **reg2out_default**
+6: **in2out_default**
+7: VCLK
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+PATHGROUP QOR 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Scene  PG      WNS        TNS    NSV      WHV        THV    NHV
+    1   1        -          -      -   0.0000     0.0000      0
+    1   2        -          -      -   0.0000     0.0000      0
+    1   3        -          -      -   0.0000     0.0000      0
+    1   4        -          -      -   0.0000     0.0000      0
+    1   5        -          -      -   0.0000     0.0000      0
+    1   6        -          -      -   0.0000     0.0000      0
+    1   7        -          -      -   0.0000     0.0000      0
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SCENARIO QOR 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Scene  PG      WNS        TNS   R2RTNS    NSV      WHV        THV    NHV  MaxTrnV   MaxTranC  MaxCapV    Leakage
+    1   *        -          -        -      -   0.0000     0.0000      0        0     0.0000        0 5183946.00
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DESIGN QOR 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Scene  PG      WNS        TNS   R2RTNS    NSV      WHV        THV    NHV  MaxTrnV   MaxTranC  MaxCapV    Leakage         Area    InstCnt
+    *   *        -          -        -      -   0.0000     0.0000      0        0     0.0000        0 5183946.00        32.41         93
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Route-opt initial QoR Summary       WNS        TNS   R2RTNS    NSV      WHV        THV    NHV  MaxTrnV  MaxCapV    Leakage         Area    InstCnt
+Route-opt initial QoR Summary         -          -        -      -   0.0000     0.0000      0        0        0 5183946.00        32.41         93
+Information: The netlist change observers are disabled for incremental extraction. (TIM-126)
+INFO: using 1 threads
+Warning: no valid parasitic for BEST corner(LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Warning: no valid parasitic for BEST corner(LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner(EARLY) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Warning: no valid parasitic for (all corners) corner((both specs)) (NEX-018)
+Route-opt initialization complete         CPU:    25 s (  0.01 hr )  ELAPSE:   236 s (  0.07 hr )  MEM-PEAK:  1016 MB
+Route-opt optimization summary            SETUP-COST    R2R-COST HOLD-COST LDRC-COST          AREA     LEAKAGE     INSTCNT            ELAPSE       MEM
+Information: Initializing classic cellmap without advanced rules enabled and with PDC enabled
+Information: The following app options are used in cellmap
+        place.legalize.enable_color_aware_placement : false
+        place.legalize.use_nll_query_cm : false
+        place.legalize.enable_advanced_legalizer : false
+        place.legalize.enable_prerouted_net_check : true
+        place.legalize.enable_advanced_prerouted_net_check : false
+        place.legalize.always_continue : true
+        place.legalize.limit_legality_checks : false
+        place.common.pnet_aware_density : 1.0000
+        place.common.pnet_aware_min_width : 0.0000
+        place.common.pnet_aware_layers : {}
+        place.common.use_placement_model : false
+        place.common.enable_advanced_placement_model : true
+        cts.placement.cell_spacing_rule_style : maximum
+Information: Creating classic rule checker.
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+        place.legalize.enable_prerouted_net_check: 1
+        place.legalize.num_tracks_for_access_check: 1
+        place.legalize.use_eol_spacing_for_access_check: 0
+        place.legalize.allow_touch_track_for_access_check: 1
+        place.legalize.reduce_conservatism_in_eol_check: 0
+        place.legalize.preroute_shape_merge_distance: 0.0
+        place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 0 total shapes.
+Layer M2: cached 0 shapes out of 0 total shapes.
+Layer M3: cached 0 shapes out of 0 total shapes.
+Cached 0 vias out of 13 total vias.
+Total 0.0087 seconds to build cellmap data
+INFO: creating 13(r) x 13(c) GridCells YDim 1.8 XDim 1.8
+INFO: number of GridCells (alu): 169
+Warning: There are 93 cell(s) with "unplaced" status in the design.
+Warning: Total 93 cell(s) will be ignored during cellmap initialization
+  Cell "ctmi_262", placement status "unplaced"
+  Cell "ctmi_263", placement status "unplaced"
+  Cell "ctmi_277", placement status "unplaced"
+  Cell "ctmi_287", placement status "unplaced"
+  Cell "ctmi_294", placement status "unplaced"
+  Cell "ctmi_302", placement status "unplaced"
+  Cell "ctmi_308", placement status "unplaced"
+  Cell "ctmi_315", placement status "unplaced"
+  Cell "ctmi_322", placement status "unplaced"
+  Cell "ctmi_330", placement status "unplaced"
+  Cell "ctmi_331", placement status "unplaced"
+  Cell "ctmi_323", placement status "unplaced"
+  Cell "ctmi_332", placement status "unplaced"
+  Cell "ctmi_324", placement status "unplaced"
+  Cell "ctmi_325", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_2", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_3", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_4", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_5", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_6", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_7", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_8", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_9", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_28", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_30", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_33", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_35", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_38", placement status "unplaced"
+  Cell "ctmi_326", placement status "unplaced"
+  Cell "ctmi_278", placement status "unplaced"
+  Cell "ctmi_279", placement status "unplaced"
+  Cell "ctmi_280", placement status "unplaced"
+  Cell "ctmi_281", placement status "unplaced"
+  Cell "ctmi_282", placement status "unplaced"
+  Cell "ctmi_288", placement status "unplaced"
+  Cell "ctmi_289", placement status "unplaced"
+  Cell "ctmi_290", placement status "unplaced"
+  Cell "ctmi_291", placement status "unplaced"
+  Cell "ctmi_292", placement status "unplaced"
+  Cell "ctmi_293", placement status "unplaced"
+  Cell "ctmi_295", placement status "unplaced"
+  Cell "ctmi_296", placement status "unplaced"
+  Cell "ctmi_297", placement status "unplaced"
+  Cell "ctmi_298", placement status "unplaced"
+  Cell "ctmi_299", placement status "unplaced"
+  Cell "ctmi_300", placement status "unplaced"
+  Cell "ctmi_301", placement status "unplaced"
+  Cell "ctmi_303", placement status "unplaced"
+  Cell "ctmi_304", placement status "unplaced"
+  Cell "ctmi_305", placement status "unplaced"
+  Cell "ctmi_306", placement status "unplaced"
+  Cell "ctmi_307", placement status "unplaced"
+  Cell "ctmi_309", placement status "unplaced"
+  Cell "ctmi_310", placement status "unplaced"
+  Cell "ctmi_311", placement status "unplaced"
+  Cell "ctmi_312", placement status "unplaced"
+  Cell "ctmi_313", placement status "unplaced"
+  Cell "ctmi_314", placement status "unplaced"
+  Cell "ctmi_316", placement status "unplaced"
+  Cell "ctmi_317", placement status "unplaced"
+  Cell "ctmi_318", placement status "unplaced"
+  Cell "ctmi_319", placement status "unplaced"
+  Cell "ctmi_320", placement status "unplaced"
+  Cell "ctmi_321", placement status "unplaced"
+  Cell "ctmi_327", placement status "unplaced"
+  Cell "ctmi_328", placement status "unplaced"
+  Cell "ctmi_329", placement status "unplaced"
+  Cell "ctmi_283", placement status "unplaced"
+  Cell "ctmi_284", placement status "unplaced"
+  Cell "ctmi_285", placement status "unplaced"
+  Cell "ctmi_286", placement status "unplaced"
+  Cell "ctmi_257", placement status "unplaced"
+  Cell "ctmi_258", placement status "unplaced"
+  Cell "ctmi_259", placement status "unplaced"
+  Cell "ctmi_260", placement status "unplaced"
+  Cell "ctmi_261", placement status "unplaced"
+  Cell "ctmi_264", placement status "unplaced"
+  Cell "ctmi_265", placement status "unplaced"
+  Cell "ctmi_266", placement status "unplaced"
+  Cell "ctmi_267", placement status "unplaced"
+  Cell "ctmi_268", placement status "unplaced"
+  Cell "ctmi_269", placement status "unplaced"
+  Cell "ctmi_270", placement status "unplaced"
+  Cell "ctmi_271", placement status "unplaced"
+  Cell "ctmi_272", placement status "unplaced"
+  Cell "ctmi_273", placement status "unplaced"
+  Cell "ctmi_274", placement status "unplaced"
+  Cell "ctmi_275", placement status "unplaced"
+  Cell "ctmi_276", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_40", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_43", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_0", placement status "unplaced"
+  Cell "RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_1", placement status "unplaced"
+INFO: creating 13(r) x 13(c) GridCells YDim 1.8 XDim 1.8
+INFO: number of GridCells (alu): 169
+Total 0.0011 seconds to load 0 cell instances into cellmap
+Moveable cells: 0; Application fixed cells: 0; Macro cells: 0; User fixed cells: 0
+Warning: No parasitic data is present for any scenarios. (ROPT-005)
+Warning: no valid parasitic for BEST corner( LATE) (NEX-018)
+Warning: no valid parasitic for BEST corner( EARLY) (NEX-018)
+Error: Design has atleast one corner with no Parasitic information. (OPT-906)
+Warning: Cannot find any default max transition constraint on the design. (OPT-070)
+
+Route-opt final QoR
+___________________
+Scenario Mapping Table
+1: BEST
+
+Pathgroup Mapping Table
+1: **default**
+2: **async_default**
+3: **clock_gating_default**
+4: **in2reg_default**
+5: **reg2out_default**
+6: **in2out_default**
+7: VCLK
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+PATHGROUP QOR 
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Scene  PG      WNS        TNS    NSV      WHV        THV    NHV
+    1   1        -          -      -   0.0000     0.0000      0
+    1   2        -          -      -   0.0000     0.0000      0
+    1   3        -          -      -   0.0000     0.0000      0
+    1   4        -          -      -   0.0000     0.0000      0
+    1   5        -          -      -   0.0000     0.0000      0
+    1   6        -          -      -   0.0000     0.0000      0
+    1   7        -          -      -   0.0000     0.0000      0
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+SCENARIO QOR 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Scene  PG      WNS        TNS   R2RTNS    NSV      WHV        THV    NHV  MaxTrnV   MaxTranC  MaxCapV    Leakage
+    1   *        -          -        -      -   0.0000     0.0000      0        0     0.0000        0 5183946.00
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+DESIGN QOR 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Scene  PG      WNS        TNS   R2RTNS    NSV      WHV        THV    NHV  MaxTrnV   MaxTranC  MaxCapV    Leakage         Area    InstCnt
+    *   *        -          -        -      -   0.0000     0.0000      0        0     0.0000        0 5183946.00        32.41         93
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Route-opt final QoR Summary         WNS        TNS   R2RTNS    NSV      WHV        THV    NHV  MaxTrnV  MaxCapV    Leakage         Area    InstCnt
+Route-opt final QoR Summary           -          -        -      -   0.0000     0.0000      0        0        0 5183946.00        32.41         93
+
+Route-opt optimization complete                    -           -      0.00         -         32.41  5183946.00          93              0.07      1016
+
+Route-opt command complete                CPU:    26 s (  0.01 hr )  ELAPSE:   236 s (  0.07 hr )  MEM-PEAK:  1016 MB
+Route-opt command statistics  CPU=0 sec (0.00 hr) ELAPSED=0 sec (0.00 hr) MEM-PEAK=0.992 GB
+Information: The netlist change observers are enabled for incremental extraction. (TIM-127)
+Information: Ending   'route_opt' (FLW-8001)
+Information: Time: 2026-10-27 11:03:04 / Session:  00:03:55 / Command:  00:00:00 / CPU:  00:00:00 / Memory: 1017 MB (FLW-8100)
+fc_shell> save_block -as route_opt
+Information: Saving 'rca_lib:alu.design' to 'rca_lib:route_opt.design'. (DES-028)
+1
+fc_shell> create_stdcell_fillers -lib_cells [get_lib_cells *FILL*]
+* Disjointed site row process : FALSE
+INFO:: begin filler insertions...
+CHF::NPL_CHKQUERY_PNET checking turned off by default
+master SAEDLVT14_FILLP2 has site unit
+master SAEDLVT14_FILLP3 has site unit
+master SAEDLVT14_FILL16 has site unit
+master SAEDLVT14_FILL2 has site unit
+master SAEDLVT14_FILL3 has site unit
+master SAEDLVT14_FILL32 has site unit
+master SAEDLVT14_LVLFILLR_5 has site unit
+master SAEDLVT14_LVLFILLL_5 has site unit
+master SAEDLVT14_FILL64 has site unit
+master SAEDLVT14_FILL1 has site unit
+master SAEDLVT14_FILL_ECO_12 has site unit
+master SAEDLVT14_FILL_ECO_15 has site unit
+master SAEDLVT14_FILL_ECO_2 has site unit
+master SAEDLVT14_FILL_ECO_3 has site unit
+master SAEDLVT14_FILL_ECO_6 has site unit
+master SAEDLVT14_FILL_ECO_9 has site unit
+master SAEDLVT14_FILL_NNWIV1Y2_2 has site unit
+master SAEDLVT14_FILL_NNWIV1Y2_3 has site unit
+master SAEDLVT14_FILL_NNWIY2_2 has site unit
+master SAEDLVT14_FILL_NNWIY2_3 has site unit
+master SAEDLVT14_FILL_NNWSPACERY2_7 has site unit
+master SAEDLVT14_FILL_NNWVDDBRKY2_3 has site unit
+master SAEDLVT14_FILL_SPACER_7 has site unit
+master SAEDLVT14_FILL_Y2_3 has site unit
+ Use site unit (740)
+Warning: filler ref cells not listed from laregst to smallest. Tool may not be able to fill all empty space. (CHF-008)
+INFO:: process regular filler master min-vth type: 
+Warning: Routing direction of metal layer PO is neither "horizontal" nor "vertical".  PDC checks will not be performed on this layer. (PDC-003)
+PDC app_options settings =========
+        place.legalize.enable_prerouted_net_check: 1
+        place.legalize.num_tracks_for_access_check: 1
+        place.legalize.use_eol_spacing_for_access_check: 0
+        place.legalize.allow_touch_track_for_access_check: 1
+        place.legalize.reduce_conservatism_in_eol_check: 0
+        place.legalize.preroute_shape_merge_distance: 0.0
+        place.legalize.enable_non_preferred_direction_span_check: 0
+
+Layer M1: cached 0 shapes out of 0 total shapes.
+Layer M2: cached 0 shapes out of 0 total shapes.
+Layer M3: cached 0 shapes out of 0 total shapes.
+Cached 0 vias out of 13 total vias.
+CHF: loading design...
+... VT_P rule: 0.074000
+... VT_N rule: 0.074000
+... max group width rule: 0.074000
+CHF:: Loading blkInsts from NDM...
+CHF:: Building row/inst relations...
+INFO:: Use fillers in order(1000): SAEDLVT14_FILLP2 (4 x 1), SAEDLVT14_FILLP3 (5 x 1), SAEDLVT14_FILL16 (18 x 1), SAEDLVT14_FILL2 (4 x 1), SAEDLVT14_FILL3 (5 x 1), SAEDLVT14_FILL32 (34 x 1), SAEDLVT14_LVLFILLR_5 (7 x 1), SAEDLVT14_LVLFILLL_5 (7 x 1), SAEDLVT14_FILL64 (66 x 1), SAEDLVT14_FILL1 (1 x 1), SAEDLVT14_FILL_ECO_12 (14 x 1), SAEDLVT14_FILL_ECO_15 (17 x 1), SAEDLVT14_FILL_ECO_2 (4 x 1), SAEDLVT14_FILL_ECO_3 (5 x 1), SAEDLVT14_FILL_ECO_6 (7 x 1), SAEDLVT14_FILL_ECO_9 (10 x 1), SAEDLVT14_FILL_NNWIV1Y2_2 (4 x 2), SAEDLVT14_FILL_NNWIV1Y2_3 (5 x 2), SAEDLVT14_FILL_NNWIY2_2 (4 x 2), SAEDLVT14_FILL_NNWIY2_3 (5 x 2), SAEDLVT14_FILL_NNWSPACERY2_7 (9 x 2), SAEDLVT14_FILL_NNWVDDBRKY2_3 (5 x 2), SAEDLVT14_FILL_SPACER_7 (9 x 2), SAEDLVT14_FILL_Y2_3 (5 x 2), 
+        10% complete ...
+        40% complete ...
+        70% complete ...
+Regular Filler Insertion Complete
+... 2211 of regular filler SAEDLVT14_FILLP2 inserted
+... 0 of regular filler SAEDLVT14_FILLP3 inserted
+... 0 of regular filler SAEDLVT14_FILL16 inserted
+... 0 of regular filler SAEDLVT14_FILL2 inserted
+... 0 of regular filler SAEDLVT14_FILL3 inserted
+... 0 of regular filler SAEDLVT14_FILL32 inserted
+... 0 of regular filler SAEDLVT14_LVLFILLR_5 inserted
+... 0 of regular filler SAEDLVT14_LVLFILLL_5 inserted
+... 0 of regular filler SAEDLVT14_FILL64 inserted
+... 33 of regular filler SAEDLVT14_FILL1 inserted
+... 0 of regular filler SAEDLVT14_FILL_ECO_12 inserted
+... 0 of regular filler SAEDLVT14_FILL_ECO_15 inserted
+... 0 of regular filler SAEDLVT14_FILL_ECO_2 inserted
+... 0 of regular filler SAEDLVT14_FILL_ECO_3 inserted
+... 0 of regular filler SAEDLVT14_FILL_ECO_6 inserted
+... 0 of regular filler SAEDLVT14_FILL_ECO_9 inserted
+... 0 of regular filler SAEDLVT14_FILL_NNWIV1Y2_2 inserted
+... 0 of regular filler SAEDLVT14_FILL_NNWIV1Y2_3 inserted
+... 0 of regular filler SAEDLVT14_FILL_NNWIY2_2 inserted
+... 0 of regular filler SAEDLVT14_FILL_NNWIY2_3 inserted
+... 0 of regular filler SAEDLVT14_FILL_NNWSPACERY2_7 inserted
+... 0 of regular filler SAEDLVT14_FILL_NNWVDDBRKY2_3 inserted
+... 0 of regular filler SAEDLVT14_FILL_SPACER_7 inserted
+... 0 of regular filler SAEDLVT14_FILL_Y2_3 inserted
+fc_shell> report_timing -delay_type min -sig 3
+Warning: Invalid user port delay or slew threshold setting, use default setting. (TIM-205)
+****************************************
+Report : timing
+        -path_type full
+        -delay_type min
+        -max_paths 1
+        -report_by design
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:51 2026
+****************************************
+No paths.
+1
+fc_shell> report_timing -delay_type max -sig 3
+Warning: Scenario BEST is not configured for setup analysis: skipping. (UIC-058)
+Warning: None of the specified scenarios are active for setup analysis. (UIC-057)
+****************************************
+Report : timing
+        -path_type full
+        -delay_type max
+        -max_paths 1
+        -report_by design
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:51 2026
+****************************************
+No paths.
+1
+fc_shell> report_global_timing -pba_mode path
+Warning: Scenario BEST is not configured for setup analysis: skipping. (UIC-058)
+Warning: None of the specified scenarios are active for setup analysis. (UIC-057)
+****************************************
+Report : global timing
+        -format { narrow }
+        -report_by design
+        -pba_mode path
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:51 2026
+****************************************
+
+No setup violations found.
+
+
+No hold violations found.
+
+
+1
+fc_shell> report_power
+****************************************
+Report : power
+        -significant_digits 2
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:51 2026
+****************************************
+Information: Activity for scenario BEST was cached, no propagation required. (POW-005)
+Mode: BEST
+Corner: BEST
+Scenario: BEST
+Voltage: 0.71
+Temperature: 125.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1pF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1pW
+Leakage Power Unit   : 1pW
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+
+  Cell Internal Power    = N/A ( N/A )
+  Net Switching Power    = N/A ( N/A )
+Total Dynamic Power      = N/A (  0.0%)
+
+Cell Leakage Power       = 5.18e+06 pW
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                         N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+memory                         N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+black_box                      N/A                    N/A               6.80e-11               6.80e-11    (  0.0%)         
+clock_network                  N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+register                       N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+sequential                     N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+combinational                  N/A                    N/A               5.18e+06               5.18e+06    (100.0%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                          N/A                    N/A               5.18e+06 pW            5.18e+06 pW
+1
+fc_shell> check_routes
+Cell Min-Routing-Layer = M1
+Cell Max-Routing-Layer = MRDL
+Turn off antenna since no rule is specified
+Information: Option route.detail.force_end_on_preferred_grid will be ignored since none of the layers have preferred grid. (ZRT-703)
+Warning: Cannot find a default contact code for layer VIA0. (ZRT-022)
+Warning: Port A[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port zero of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port VDD of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port VSS of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Ignore 30 top cell ports with no pins. (ZRT-027)
+Info: number of net_type_blockage: 0 
+Error: Cell ctmi_262 is not placed. (ZRT-064)
+Error: Cell ctmi_263 is not placed. (ZRT-064)
+Error: Cell ctmi_277 is not placed. (ZRT-064)
+Error: Cell ctmi_287 is not placed. (ZRT-064)
+Error: Cell ctmi_294 is not placed. (ZRT-064)
+Error: Cell ctmi_302 is not placed. (ZRT-064)
+Error: Cell ctmi_308 is not placed. (ZRT-064)
+Error: Cell ctmi_315 is not placed. (ZRT-064)
+Error: Cell ctmi_322 is not placed. (ZRT-064)
+Error: Cell ctmi_330 is not placed. (ZRT-064)
+Error: Cell ctmi_331 is not placed. (ZRT-064)
+Error: Cell ctmi_323 is not placed. (ZRT-064)
+Error: Cell ctmi_332 is not placed. (ZRT-064)
+Error: Cell ctmi_324 is not placed. (ZRT-064)
+Error: Cell ctmi_325 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_2 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_3 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_4 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_5 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_6 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_7 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_8 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_9 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_28 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_30 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_33 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_35 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_38 is not placed. (ZRT-064)
+Error: Cell ctmi_326 is not placed. (ZRT-064)
+Error: Cell ctmi_278 is not placed. (ZRT-064)
+Error: Cell ctmi_279 is not placed. (ZRT-064)
+Error: Cell ctmi_280 is not placed. (ZRT-064)
+Error: Cell ctmi_281 is not placed. (ZRT-064)
+Error: Cell ctmi_282 is not placed. (ZRT-064)
+Error: Cell ctmi_288 is not placed. (ZRT-064)
+Error: Cell ctmi_289 is not placed. (ZRT-064)
+Error: Cell ctmi_290 is not placed. (ZRT-064)
+Error: Cell ctmi_291 is not placed. (ZRT-064)
+Error: Cell ctmi_292 is not placed. (ZRT-064)
+Error: Cell ctmi_293 is not placed. (ZRT-064)
+Error: Cell ctmi_295 is not placed. (ZRT-064)
+Error: Cell ctmi_296 is not placed. (ZRT-064)
+Error: Cell ctmi_297 is not placed. (ZRT-064)
+Error: Cell ctmi_298 is not placed. (ZRT-064)
+Error: Cell ctmi_299 is not placed. (ZRT-064)
+Error: Cell ctmi_300 is not placed. (ZRT-064)
+Error: Cell ctmi_301 is not placed. (ZRT-064)
+Error: Cell ctmi_303 is not placed. (ZRT-064)
+Error: Cell ctmi_304 is not placed. (ZRT-064)
+Error: Cell ctmi_305 is not placed. (ZRT-064)
+Error: Cell ctmi_306 is not placed. (ZRT-064)
+Error: Cell ctmi_307 is not placed. (ZRT-064)
+Error: Cell ctmi_309 is not placed. (ZRT-064)
+Error: Cell ctmi_310 is not placed. (ZRT-064)
+Error: Cell ctmi_311 is not placed. (ZRT-064)
+Error: Cell ctmi_312 is not placed. (ZRT-064)
+Error: Cell ctmi_313 is not placed. (ZRT-064)
+Error: Cell ctmi_314 is not placed. (ZRT-064)
+Error: Cell ctmi_316 is not placed. (ZRT-064)
+Error: Cell ctmi_317 is not placed. (ZRT-064)
+Error: Cell ctmi_318 is not placed. (ZRT-064)
+Error: Cell ctmi_319 is not placed. (ZRT-064)
+Error: Cell ctmi_320 is not placed. (ZRT-064)
+Error: Cell ctmi_321 is not placed. (ZRT-064)
+Error: Cell ctmi_327 is not placed. (ZRT-064)
+Error: Cell ctmi_328 is not placed. (ZRT-064)
+Error: Cell ctmi_329 is not placed. (ZRT-064)
+Error: Cell ctmi_283 is not placed. (ZRT-064)
+Error: Cell ctmi_284 is not placed. (ZRT-064)
+Error: Cell ctmi_285 is not placed. (ZRT-064)
+Error: Cell ctmi_286 is not placed. (ZRT-064)
+Error: Cell ctmi_257 is not placed. (ZRT-064)
+Error: Cell ctmi_258 is not placed. (ZRT-064)
+Error: Cell ctmi_259 is not placed. (ZRT-064)
+Error: Cell ctmi_260 is not placed. (ZRT-064)
+Error: Cell ctmi_261 is not placed. (ZRT-064)
+Error: Cell ctmi_264 is not placed. (ZRT-064)
+Error: Cell ctmi_265 is not placed. (ZRT-064)
+Error: Cell ctmi_266 is not placed. (ZRT-064)
+Error: Cell ctmi_267 is not placed. (ZRT-064)
+Error: Cell ctmi_268 is not placed. (ZRT-064)
+Error: Cell ctmi_269 is not placed. (ZRT-064)
+Error: Cell ctmi_270 is not placed. (ZRT-064)
+Error: Cell ctmi_271 is not placed. (ZRT-064)
+Error: Cell ctmi_272 is not placed. (ZRT-064)
+Error: Cell ctmi_273 is not placed. (ZRT-064)
+Error: Cell ctmi_274 is not placed. (ZRT-064)
+Error: Cell ctmi_275 is not placed. (ZRT-064)
+Error: Cell ctmi_276 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_40 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_43 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_0 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_1 is not placed. (ZRT-064)
+Information: Via ladder engine would be activated for pattern must join connection in certain commands. Please refer to man-page for the command list. (ZRT-619)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M1 default pitch 0.074 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.074" & "wire/via-up 0.078". (ZRT-026)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M2 default pitch 0.060 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.078" & "wire/via-up 0.060". (ZRT-026)
+Via on layer (VIA4) needs more than one tracks
+Warning: Layer M5 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.120" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M7 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 0.102". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M8 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.102" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer M9 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 1.570". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer MRDL default pitch 4.000 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 4.500" & "wire/via-up 4.000". (ZRT-026)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 1.35 outside the layer range. (ZRT-707)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 1.35 outside the layer range on clock nets. (ZRT-718)
+Information: When applicable layer based tapering will taper up to 0.00 in distance from the pin. (ZRT-706)
+
+
+Start checking for open nets ... 
+
+Total number of nets = 2, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+
+Check 2 nets, 0 have Errors
+
+[CHECK OPEN NETS] Elapsed real time: 0:00:00 
+[CHECK OPEN NETS] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[CHECK OPEN NETS] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[CHECK OPEN NETS] Total (MB): Used   29  Alloctr   30  Proc 4669 
+Printing options for 'route.common.*'
+
+Printing options for 'route.detail.*'
+
+Printing options for 'route.auto_via_ladder.*'
+
+
+Begin full DRC check ...
+
+Information: Using 1 threads for routing. (ZRT-444)
+[DRC CHECK] Elapsed real time: 0:00:00 
+[DRC CHECK] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[DRC CHECK] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[DRC CHECK] Total (MB): Used  120  Alloctr  121  Proc 4669 
+Warning: No antenna rules defined, Skip antenna analysis. (ZRT-309)
+
+DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      0
+
+
+Total Wire Length =                    0 micron
+Total Number of Contacts =             0
+Total Number of Wires =                0
+Total Number of PtConns =              0
+Total Number of Routed Wires =       0
+Total Routed Wire Length =           0 micron
+Total Number of Routed Contacts =       0
+        Layer       M1 :          0 micron
+        Layer       M2 :          0 micron
+        Layer       M3 :          0 micron
+        Layer       M4 :          0 micron
+        Layer       M5 :          0 micron
+        Layer       M6 :          0 micron
+        Layer       M7 :          0 micron
+        Layer       M8 :          0 micron
+        Layer       M9 :          0 micron
+        Layer     MRDL :          0 micron
+
+ 
+Redundant via conversion report:
+--------------------------------
+
+  Total optimized via conversion rate =  0.00% (0 / 0 vias)
+ 
+ 
+  Total double via conversion rate    =  0.00% (0 / 0 vias)
+ 
+ 
+  The optimized via conversion rate based on total routed via count =  0.00% (0 / 0 vias)
+ 
+ 
+
+
+Verify Summary:
+
+Total number of nets = 2, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
+                                 0 ports without pins of 0 cells connected to 0 nets
+                                 0 ports of 0 cover cells connected to 0 non-pg nets
+Total number of DRCs = 0
+Total number of antenna violations = no antenna rules defined
+Total number of tie to rail violations = not checked
+Total number of tie to rail directly violations = not checked
+
+
+fc_shell> check_lvs########
+Error: unknown command 'check_lvs########' (CMD-005)
+fc_shell> write_verilog alu.v
+Warning: Net name 'N0' is omitted from the output file, because the net name does not match a connected port name. The net is implicitly renamed to match one of its connected ports. (VW-007)
+1
+fc_shell> write_def alu.def
+****************************************
+Report : Data Mismatches
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:51 2026
+****************************************
+No mismatches exist on the design.
+Information: Fill shapes with 'active_fill' purpose will be skipped from output DEF. (DEFW-032)
+---------------------------------------
+Number of Written DEF Constructs
+---------------------------------------
+VERSION                        : 1
+DIVIDERCHAR                    : 1
+BUSBITCHARS                    : 1
+DESIGN                         : 1
+UNITS                          : 1
+DIEAREA                        : 1
+ROW                            : 33
+TRACKS                         : 20
+VIAS                           : 1
+NONDEFAULTRULES                : 1
+COMPONENTS                     : 2337
+PINS                           : 30
+SPECIALNETS                    : 2
+NETS                           : 119
+1
+fc_shell> write_oasis -units 1000 alu.oasis
+Warning: Unplaced cell 'ctmi_262' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_263' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_277' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_287' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_294' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_302' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_308' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_315' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_322' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_330' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_331' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_323' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_332' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_324' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'ctmi_325' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_2' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_3' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_4' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_5' is written to the OASIS file. (OASIS-110)
+Warning: Unplaced cell 'RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_6' is written to the OASIS file. (OASIS-110)
+Note - message 'OASIS-110' limit (20) exceeded. Remainder will be suppressed.
+1
+fc_shell> report_placement
+Information: The command 'report_placement' cleared the undo history. (UNDO-016)
+****************************************
+Report : report_placement
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:58 2026
+****************************************
+  ==================
+  Note: Including violations of fixed cells or between fixed pairs of cells. 
+        To ignore violations of / between fixed cells, enable -ignore_fixed. 
+  ==================
+
+  Wire length report (all)
+  ==================
+  wire length in design alu: 43.502 microns.
+    number of nets with unassigned pins: 28
+  wire length in design alu (see through blk pins): 43.502 microns.
+
+  Physical hierarchy violations report
+  ====================================
+  Violations in design alu:
+Information: cell ctmi_262 is outside of placement area (DPP-401)
+Information: cell ctmi_263 is outside of placement area (DPP-401)
+Information: cell ctmi_277 is outside of placement area (DPP-401)
+Information: cell ctmi_287 is outside of placement area (DPP-401)
+     93 cells have placement violation.
+
+  Voltage area violations report
+  ====================================
+  Voltage area placement violations in design alu:
+     0 cells placed outside the voltage area which they belong to.
+
+Information: Default error view alu_dpplace.err is created in GUI error browser. (DPP-054)
+1
+fc_shell> report_timing -delay_type min -sig 3
+****************************************
+Report : timing
+        -path_type full
+        -delay_type min
+        -max_paths 1
+        -report_by design
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:58 2026
+****************************************
+No paths.
+1
+fc_shell> report_timing -delay_type max -sig 3
+Warning: Scenario BEST is not configured for setup analysis: skipping. (UIC-058)
+Warning: None of the specified scenarios are active for setup analysis. (UIC-057)
+****************************************
+Report : timing
+        -path_type full
+        -delay_type max
+        -max_paths 1
+        -report_by design
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:58 2026
+****************************************
+No paths.
+1
+fc_shell> report_global_timing -pba_mode path
+Warning: Scenario BEST is not configured for setup analysis: skipping. (UIC-058)
+Warning: None of the specified scenarios are active for setup analysis. (UIC-057)
+****************************************
+Report : global timing
+        -format { narrow }
+        -report_by design
+        -pba_mode path
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:58 2026
+****************************************
+
+No setup violations found.
+
+
+No hold violations found.
+
+
+1
+fc_shell> report_power
+****************************************
+Report : power
+        -significant_digits 2
+Design : alu
+Version: W-2024.09-SP2
+Date   : Tue Oct 27 11:03:58 2026
+****************************************
+Information: Activity for scenario BEST was cached, no propagation required. (POW-005)
+Mode: BEST
+Corner: BEST
+Scenario: BEST
+Voltage: 0.71
+Temperature: 125.00
+
+Voltage Unit         : 1V
+Capacitance Unit     : 1pF
+Time Unit            : 1ns
+Temperature Unit     : 1C
+Dynamic Power Unit   : 1pW
+Leakage Power Unit   : 1pW
+
+Switched supply net power scaling:
+scaling for leakage power
+
+Supply nets:
+VDD (power) probability 1.00 (default)
+VSS (ground) probability 1.00 (default)
+
+  Cell Internal Power    = N/A ( N/A )
+  Net Switching Power    = N/A ( N/A )
+Total Dynamic Power      = N/A (  0.0%)
+
+Cell Leakage Power       = 5.18e+06 pW
+
+
+  Attributes
+  ----------
+      u  -  User defined power group
+
+Power Group         Internal Power        Switching Power          Leakage Power            Total Power    (   %  )    Attrs
+-----------------------------------------------------------------------------------------------------------------------------
+io_pad                         N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+memory                         N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+black_box                      N/A                    N/A               6.80e-11               6.80e-11    (  0.0%)         
+clock_network                  N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+register                       N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+sequential                     N/A                    N/A               0.00e+00               0.00e+00    (  0.0%)         
+combinational                  N/A                    N/A               5.18e+06               5.18e+06    (100.0%)         
+-----------------------------------------------------------------------------------------------------------------------------
+Total                          N/A                    N/A               5.18e+06 pW            5.18e+06 pW
+1
+fc_shell> check_routes
+Cell Min-Routing-Layer = M1
+Cell Max-Routing-Layer = MRDL
+Turn off antenna since no rule is specified
+Information: Option route.detail.force_end_on_preferred_grid will be ignored since none of the layers have preferred grid. (ZRT-703)
+Warning: Cannot find a default contact code for layer VIA0. (ZRT-022)
+Warning: Port A[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port A[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port B[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port opcode[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[7] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[6] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[5] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[4] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[3] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[2] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[1] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port result[0] of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port zero of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port VDD of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Port VSS of cell alu is unplaced.  This may impact routing result. (ZRT-740)
+Warning: Ignore 30 top cell ports with no pins. (ZRT-027)
+Info: number of net_type_blockage: 0 
+Error: Cell ctmi_262 is not placed. (ZRT-064)
+Error: Cell ctmi_263 is not placed. (ZRT-064)
+Error: Cell ctmi_277 is not placed. (ZRT-064)
+Error: Cell ctmi_287 is not placed. (ZRT-064)
+Error: Cell ctmi_294 is not placed. (ZRT-064)
+Error: Cell ctmi_302 is not placed. (ZRT-064)
+Error: Cell ctmi_308 is not placed. (ZRT-064)
+Error: Cell ctmi_315 is not placed. (ZRT-064)
+Error: Cell ctmi_322 is not placed. (ZRT-064)
+Error: Cell ctmi_330 is not placed. (ZRT-064)
+Error: Cell ctmi_331 is not placed. (ZRT-064)
+Error: Cell ctmi_323 is not placed. (ZRT-064)
+Error: Cell ctmi_332 is not placed. (ZRT-064)
+Error: Cell ctmi_324 is not placed. (ZRT-064)
+Error: Cell ctmi_325 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_2 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_3 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_4 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_5 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_6 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_7 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_8 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_9 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_28 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_30 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_33 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_35 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_38 is not placed. (ZRT-064)
+Error: Cell ctmi_326 is not placed. (ZRT-064)
+Error: Cell ctmi_278 is not placed. (ZRT-064)
+Error: Cell ctmi_279 is not placed. (ZRT-064)
+Error: Cell ctmi_280 is not placed. (ZRT-064)
+Error: Cell ctmi_281 is not placed. (ZRT-064)
+Error: Cell ctmi_282 is not placed. (ZRT-064)
+Error: Cell ctmi_288 is not placed. (ZRT-064)
+Error: Cell ctmi_289 is not placed. (ZRT-064)
+Error: Cell ctmi_290 is not placed. (ZRT-064)
+Error: Cell ctmi_291 is not placed. (ZRT-064)
+Error: Cell ctmi_292 is not placed. (ZRT-064)
+Error: Cell ctmi_293 is not placed. (ZRT-064)
+Error: Cell ctmi_295 is not placed. (ZRT-064)
+Error: Cell ctmi_296 is not placed. (ZRT-064)
+Error: Cell ctmi_297 is not placed. (ZRT-064)
+Error: Cell ctmi_298 is not placed. (ZRT-064)
+Error: Cell ctmi_299 is not placed. (ZRT-064)
+Error: Cell ctmi_300 is not placed. (ZRT-064)
+Error: Cell ctmi_301 is not placed. (ZRT-064)
+Error: Cell ctmi_303 is not placed. (ZRT-064)
+Error: Cell ctmi_304 is not placed. (ZRT-064)
+Error: Cell ctmi_305 is not placed. (ZRT-064)
+Error: Cell ctmi_306 is not placed. (ZRT-064)
+Error: Cell ctmi_307 is not placed. (ZRT-064)
+Error: Cell ctmi_309 is not placed. (ZRT-064)
+Error: Cell ctmi_310 is not placed. (ZRT-064)
+Error: Cell ctmi_311 is not placed. (ZRT-064)
+Error: Cell ctmi_312 is not placed. (ZRT-064)
+Error: Cell ctmi_313 is not placed. (ZRT-064)
+Error: Cell ctmi_314 is not placed. (ZRT-064)
+Error: Cell ctmi_316 is not placed. (ZRT-064)
+Error: Cell ctmi_317 is not placed. (ZRT-064)
+Error: Cell ctmi_318 is not placed. (ZRT-064)
+Error: Cell ctmi_319 is not placed. (ZRT-064)
+Error: Cell ctmi_320 is not placed. (ZRT-064)
+Error: Cell ctmi_321 is not placed. (ZRT-064)
+Error: Cell ctmi_327 is not placed. (ZRT-064)
+Error: Cell ctmi_328 is not placed. (ZRT-064)
+Error: Cell ctmi_329 is not placed. (ZRT-064)
+Error: Cell ctmi_283 is not placed. (ZRT-064)
+Error: Cell ctmi_284 is not placed. (ZRT-064)
+Error: Cell ctmi_285 is not placed. (ZRT-064)
+Error: Cell ctmi_286 is not placed. (ZRT-064)
+Error: Cell ctmi_257 is not placed. (ZRT-064)
+Error: Cell ctmi_258 is not placed. (ZRT-064)
+Error: Cell ctmi_259 is not placed. (ZRT-064)
+Error: Cell ctmi_260 is not placed. (ZRT-064)
+Error: Cell ctmi_261 is not placed. (ZRT-064)
+Error: Cell ctmi_264 is not placed. (ZRT-064)
+Error: Cell ctmi_265 is not placed. (ZRT-064)
+Error: Cell ctmi_266 is not placed. (ZRT-064)
+Error: Cell ctmi_267 is not placed. (ZRT-064)
+Error: Cell ctmi_268 is not placed. (ZRT-064)
+Error: Cell ctmi_269 is not placed. (ZRT-064)
+Error: Cell ctmi_270 is not placed. (ZRT-064)
+Error: Cell ctmi_271 is not placed. (ZRT-064)
+Error: Cell ctmi_272 is not placed. (ZRT-064)
+Error: Cell ctmi_273 is not placed. (ZRT-064)
+Error: Cell ctmi_274 is not placed. (ZRT-064)
+Error: Cell ctmi_275 is not placed. (ZRT-064)
+Error: Cell ctmi_276 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_40 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_43 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_0 is not placed. (ZRT-064)
+Error: Cell RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_1 is not placed. (ZRT-064)
+Information: Via ladder engine would be activated for pattern must join connection in certain commands. Please refer to man-page for the command list. (ZRT-619)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M1 default pitch 0.074 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.074" & "wire/via-up 0.078". (ZRT-026)
+Via on layer (VIA1) needs more than one tracks
+Warning: Layer M2 default pitch 0.060 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.078" & "wire/via-up 0.060". (ZRT-026)
+Via on layer (VIA4) needs more than one tracks
+Warning: Layer M5 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.120" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M7 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 0.102". (ZRT-026)
+Via on layer (VIA7) needs more than one tracks
+Warning: Layer M8 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.102" & "wire/via-up 0.100". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer M9 default pitch 0.100 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 0.100" & "wire/via-up 1.570". (ZRT-026)
+Via on layer (VIARDL) needs more than one tracks
+Warning: Layer MRDL default pitch 4.000 may be too small to handle up/down via. Note, that minimum requirements are "wire/via-down 4.500" & "wire/via-up 4.000". (ZRT-026)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 1.35 outside the layer range. (ZRT-707)
+Information: When applicable Min-max layer allow_pin_connection mode will allow paths of length 1.35 outside the layer range on clock nets. (ZRT-718)
+Information: When applicable layer based tapering will taper up to 0.00 in distance from the pin. (ZRT-706)
+
+
+Start checking for open nets ... 
+
+Total number of nets = 2, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+
+Check 2 nets, 0 have Errors
+
+[CHECK OPEN NETS] Elapsed real time: 0:00:00 
+[CHECK OPEN NETS] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[CHECK OPEN NETS] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[CHECK OPEN NETS] Total (MB): Used   29  Alloctr   30  Proc 4669 
+Printing options for 'route.common.*'
+
+Printing options for 'route.detail.*'
+detail.antenna                                          :        true                
+
+Printing options for 'route.auto_via_ladder.*'
+
+
+Begin full DRC check ...
+
+Information: Using 1 threads for routing. (ZRT-444)
+[DRC CHECK] Elapsed real time: 0:00:00 
+[DRC CHECK] Elapsed cpu  time: sys=0:00:00 usr=0:00:00 total=0:00:00
+[DRC CHECK] Stage (MB): Used    0  Alloctr    0  Proc    0 
+[DRC CHECK] Total (MB): Used  120  Alloctr  121  Proc 4669 
+Warning: No antenna rules defined, Skip antenna analysis. (ZRT-309)
+
+DRC-SUMMARY:
+        @@@@@@@ TOTAL VIOLATIONS =      0
+
+
+Total Wire Length =                    0 micron
+Total Number of Contacts =             0
+Total Number of Wires =                0
+Total Number of PtConns =              0
+Total Number of Routed Wires =       0
+Total Routed Wire Length =           0 micron
+Total Number of Routed Contacts =       0
+        Layer       M1 :          0 micron
+        Layer       M2 :          0 micron
+        Layer       M3 :          0 micron
+        Layer       M4 :          0 micron
+        Layer       M5 :          0 micron
+        Layer       M6 :          0 micron
+        Layer       M7 :          0 micron
+        Layer       M8 :          0 micron
+        Layer       M9 :          0 micron
+        Layer     MRDL :          0 micron
+
+ 
+Redundant via conversion report:
+--------------------------------
+
+  Total optimized via conversion rate =  0.00% (0 / 0 vias)
+ 
+ 
+  Total double via conversion rate    =  0.00% (0 / 0 vias)
+ 
+ 
+  The optimized via conversion rate based on total routed via count =  0.00% (0 / 0 vias)
+ 
+ 
+
+
+Verify Summary:
+
+Total number of nets = 2, of which 0 are not extracted
+Total number of open nets = 0, of which 0 are frozen
+Total number of excluded ports = 0 ports of 0 unplaced cells connected to 0 nets
+                                 0 ports without pins of 0 cells connected to 0 nets
+                                 0 ports of 0 cover cells connected to 0 non-pg nets
+Total number of DRCs = 0
+Total number of antenna violations = no antenna rules defined
+Total number of tie to rail violations = not checked
+Total number of tie to rail directly violations = not checked
+
+
+fc_shell> check_lvs
+Information: Using 1 threads for LVS
+[Check Short] Stage 1   Elapsed =    0:00:00, CPU =    0:00:00
+[Check Short] Stage 1-2 Elapsed =    0:00:00, CPU =    0:00:00
+[Check Short] Stage 2   Elapsed =    0:00:00, CPU =    0:00:00
+Detected more than 20 short violations. Skip checking short violations
+[Check Short] Stage 3   Elapsed =    0:00:00, CPU =    0:00:00
+[Check Short] End       Elapsed =    0:00:00, CPU =    0:00:00
+[Check Net] Init        Elapsed =    0:00:00, CPU =    0:00:00
+Warning: Port VDD have no valid pin shapes. Skip this port. (RT-203)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_263. BBox: (0.2420 0.1190)(0.2760 0.1420). Layer: M1. (RT-586)
+Information: Detected floating route violation for Net VDD. BBox: (1.0000 1.0000)(20.9060 20.8000). (RT-587)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_288. BBox: (0.2420 0.1190)(0.2760 0.1360). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_281. BBox: (0.2420 0.1190)(0.2760 0.1400). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_279. BBox: (0.2420 0.1190)(0.2760 0.3370). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_278. BBox: (0.2420 0.1190)(0.2760 0.1460). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_38. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1310). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_35. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1310). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_33. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1310). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_30. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1310). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/U_28. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1310). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_3. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1460). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: RS_OP_21_55109_40986_J1/DP_OP_19_11919_46792_J0/ctmi_2. Cell2: ctmi_262. BBox: (0.2420 0.1190)(0.2760 0.1360). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_325. BBox: (0.2420 0.1190)(0.2760 0.1460). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_324. BBox: (0.2420 0.1190)(0.2760 0.1360). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_332. BBox: (0.2420 0.1190)(0.2760 0.1360). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_323. BBox: (0.2420 0.1190)(0.2760 0.1460). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_331. BBox: (0.2420 0.1190)(0.2760 0.1360). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_330. BBox: (0.2420 0.1190)(0.2760 0.3370). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_322. BBox: (0.2420 0.1190)(0.2760 0.1400). Layer: M1. (RT-586)
+Information: Detected short violation. Cell1: ctmi_262. Cell2: ctmi_287. BBox: (0.2420 0.1190)(0.2760 0.1420). Layer: M1. (RT-586)
+Warning: Port VSS have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port B[0] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port opcode[2] have no valid pin shapes. Skip this port. (RT-203)
+[Check Net] 10%         Elapsed =    0:00:00, CPU =    0:00:00
+Warning: Port opcode[0] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[6] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[5] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[0] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[7] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[4] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[3] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[2] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port A[1] have no valid pin shapes. Skip this port. (RT-203)
+Information: Detected floating route violation for Net VSS. BBox: (1.0000 1.0000)(20.9060 20.8000). (RT-587)
+Information: Detected open violation for Net A[1]. BBox: (0.0940 0.1590)(0.9570 0.4190). (RT-585)
+Information: Detected open violation for Net A[2]. BBox: (0.0940 0.1590)(0.9570 0.4880). (RT-585)
+Information: Detected open violation for Net A[3]. BBox: (0.0940 0.1590)(0.9570 0.4620). (RT-585)
+Information: Detected open violation for Net A[4]. BBox: (0.0940 0.1590)(0.9570 0.4880). (RT-585)
+Information: Detected open violation for Net A[7]. BBox: (0.0940 0.1590)(0.6790 0.4220). (RT-585)
+Information: Detected open violation for Net ctmn_240. BBox: (0.1680 0.0890)(0.4380 0.4890). (RT-585)
+Information: Detected open violation for Net A[0]. BBox: (0.0940 0.1580)(1.2770 0.4190). (RT-585)
+Information: Detected open violation for Net A[5]. BBox: (0.0940 0.1590)(0.9570 0.4880). (RT-585)
+Information: Detected open violation for Net A[6]. BBox: (0.0940 0.1630)(0.9570 0.4620). (RT-585)
+Information: Detected open violation for Net ctmn_233. BBox: (0.0940 0.0890)(0.2760 0.4890). (RT-585)
+Information: Detected open violation for Net ctmn_251. BBox: (0.1680 0.0890)(0.4240 0.4890). (RT-585)
+Information: Detected open violation for Net opcode[0]. BBox: (0.0940 0.1190)(0.2760 0.4620). (RT-585)
+Information: Detected open violation for Net ctmn_242. BBox: (0.0940 0.0910)(0.2760 0.5090). (RT-585)
+Information: Detected open violation for Net ctmn_239. BBox: (0.0940 0.0890)(0.6520 0.4690). (RT-585)
+Information: Detected open violation for Net ctmn_235. BBox: (0.0940 0.0910)(0.2760 0.5090). (RT-585)
+Information: Detected open violation for Net ctmn_253. BBox: (0.0990 0.0910)(0.3530 0.5090). (RT-585)
+Information: Detected open violation for Net N73. BBox: (0.1680 0.0890)(0.4980 0.4690). (RT-585)
+Information: Detected open violation for Net ctmn_244. BBox: (0.1680 0.0910)(0.4980 0.5090). (RT-585)
+Information: Detected open violation for Net ctmn_232. BBox: (0.0940 0.0910)(0.2760 0.5090). (RT-585)
+Information: Detected open violation for Net N4. BBox: (0.1680 0.0890)(0.4380 0.4690). (RT-585)
+[Check Net] 20%         Elapsed =    0:00:00, CPU =    0:00:00
+Warning: Port B[7] have no valid pin shapes. Skip this port. (RT-203)
+Detected more than 20 open violations. Skip checking open violations.
+Warning: Port B[6] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port B[5] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port B[4] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port B[3] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port B[2] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port B[1] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port opcode[1] have no valid pin shapes. Skip this port. (RT-203)
+[Check Net] 30%         Elapsed =    0:00:00, CPU =    0:00:00
+Warning: Port result[7] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[6] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[5] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[4] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[3] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[2] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[1] have no valid pin shapes. Skip this port. (RT-203)
+Warning: Port result[0] have no valid pin shapes. Skip this port. (RT-203)
+[Check Net] 40%         Elapsed =    0:00:00, CPU =    0:00:00
+Warning: Port zero have no valid pin shapes. Skip this port. (RT-203)
+Warning: Net N0 has less than 2 valid port. Skip open checking for this net. (RT-204)
+[Check Net] 50%         Elapsed =    0:00:00, CPU =    0:00:00
+[Check Net] 60%         Elapsed =    0:00:00, CPU =    0:00:00
+[Check Net] 70%         Elapsed =    0:00:00, CPU =    0:00:00
+[Check Net] 80%         Elapsed =    0:00:00, CPU =    0:00:00
+[Check Net] 90%         Elapsed =    0:00:00, CPU =    0:00:00
+[Check Net] All nets are submitted.
+[Check Net] 100%        Elapsed =    0:00:00, CPU =    0:00:00
+
+===============================================================
+    Maximum number of violations is set to 20
+    Abort checking when more than 20 violations are found
+    All violations might not be found.
+===============================================================
+Total number of input nets is 121.
+Total number of short violations is 20.
+Total number of open nets is 20.
+Open nets are A[7] A[6] A[5] A[4] A[3] A[2] A[1] A[0] opcode[0] N4 N73 ctmn_251 ctmn_253 ctmn_232 ctmn_233 ctmn_235 ctmn_239 ctmn_240 ctmn_242 ctmn_244 ...
+Total number of floating route violations is 2.
+
+Elapsed =    0:00:00, CPU =    0:00:00
+1
+fc_shell> 
